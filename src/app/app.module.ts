@@ -18,6 +18,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {provideHttpClient} from '@angular/common/http';
+import { NavbarComponent } from './shared/layout/navbar/navbar.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import {provideHttpClient} from '@angular/common/http';
     CollectionComponent,
     CardComponent,
     LootComponent,
-    InputComponent
+    InputComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +43,8 @@ import {provideHttpClient} from '@angular/common/http';
     AppRoutingModule,
     FontAwesomeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     provideHttpClient()

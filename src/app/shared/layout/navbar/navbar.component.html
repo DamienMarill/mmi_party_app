@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-2 fixed w-full bottom-0 z-20"  [@slideAnimation]="navConfig.showNav ? 'visible' : 'hidden'">
+  <div class="flex justify-center" [@opacityAnimation]="navConfig.showBack ? 'visible' : 'hidden'">
+    @if (navConfig.showBack) {
+      <button (click)="goBack()" class="btn btn-circle border border-base-300 bg-base-100/90 center-shadow">
+        <fa-icon [icon]="icons.faXmark" class=""></fa-icon>
+      </button>
+    }
+  </div>
+
+  <div class="btm-nav static text-xl" [@opacityAnimation]="navConfig.showNav ? 'visible' : 'hidden'">
+    <a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <fa-icon [icon]="iconsInactive.faHouse" class="is-inactive"></fa-icon>
+      <fa-icon [icon]="iconsActive.faHouse" class=" is-active"></fa-icon>
+    </a>
+    <a [routerLink]="['/collection']" routerLinkActive="active">
+      <fa-icon [icon]="iconsInactive.faBookSparkles" class=" is-inactive"></fa-icon>
+      <fa-icon [icon]="iconsActive.faBookSparkles" class=" is-active"></fa-icon>
+    </a>
+    <a [routerLink]="['/trade']" routerLinkActive="active">
+      <fa-icon [icon]="iconsInactive.faRightLeftLarge" class=" is-inactive"></fa-icon>
+      <fa-icon [icon]="iconsActive.faRightLeftLarge" class=" is-active"></fa-icon>
+    </a>
+    <a [routerLink]="['/fight']" routerLinkActive="active">
+      <fa-icon [icon]="iconsInactive.faSwords" class=" is-inactive"></fa-icon>
+      <fa-icon [icon]="iconsActive.faSwords" class=" is-active"></fa-icon>
+    </a>
+  </div>
+</div>
+

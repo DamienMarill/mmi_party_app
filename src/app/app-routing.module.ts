@@ -17,10 +17,11 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [publicOnlyGuard],
+    data: {nav: {showNav: false, showBack: false}},
     children: [
       {
         path: '',
-        component: LoginLoginComponent
+        component: LoginLoginComponent,
       },
       {
         path: 'register',
@@ -29,6 +30,7 @@ const routes: Routes = [
       {
         path: 'forgot-password',
         component: ForgetPassComponent,
+        data: {nav: {showNav: false, showBack: true}},
       },
       {
         path: 'reset-password',
@@ -40,6 +42,7 @@ const routes: Routes = [
     path: '',
     component: ContentComponent,
     canActivate: [authGuard],
+    data: {nav: {showNav: true, showBack: false}},
     children: [
       {
         path: 'home',
@@ -52,10 +55,12 @@ const routes: Routes = [
       {
         path: 'card:cardId',
         component: CardComponent,
+        data: {nav: {showNav: false, showBack: true}}
       },
       {
         path: 'loot',
         component: LootComponent,
+        data: {nav: {showNav: false, showBack: false}}
       }
     ],
   },
