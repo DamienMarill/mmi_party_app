@@ -1,0 +1,115 @@
+<div class="mll-input">
+  @if (globalType === 'checkbox'){
+    <div class="flex">
+      <label [for]="id" class="checkbox-label cursor-pointer">
+        <input
+          #checkboxRef
+          [id]="id"
+          (input)="onInput(checkboxRef.value, checkboxRef.checked)"
+          [type]="checkboxTypeSanityse()"
+          [value]="value"
+          [checked]="(checkboxTypeSanityse() === 'checkbox' && control?.value === value) || (checkboxTypeSanityse() === 'radio' && control?.value?.includes(value))"
+          [ngClass]="type"
+          [required]="isRequired|| required"
+          [class.textarea-error]="control?.touched && control?.errors"
+        />
+        <span *ngIf="label" class="label-text">{{ label }}</span>
+      </label>
+    </div>
+  } @else {
+    <label *ngIf="label" [for]="id" class="label" [ngClass]="{ required: isRequired|| required }">{{ label }}</label>
+    <div class="relative">
+      <label
+        *ngIf="globalType === 'text'"
+        [for]="id"
+        class="input flex items-center gap-2"
+        [class.input-bordered]="!displayError()"
+        [class.input-error]="displayError()"
+        [class.input-focus]="inputFocus"
+      >
+        <ng-container [ngTemplateOutlet]="leftIcon"></ng-container>
+        <input
+          #inputRef
+          [id]="id"
+          (input)="onInput(inputRef.value)"
+          [required]="isRequired || required"
+          [type]="type"
+          [placeholder]="placeholder"
+          (focus)="inputFocus = true"
+          (focusout)="inputFocus = false; onInput(inputRef.value)"
+          [(ngModel)]="value"
+          class="grow"
+        />
+      </label>
+      <textarea
+        #textareaRef
+        *ngIf="globalType === 'textarea'"
+        [id]="id"
+        (input)="onInput(textareaRef.value)"
+        (focusout)="onInput(textareaRef.value)"
+        class="textarea w-full"
+        [(ngModel)]="value"
+        [class.textarea-bordered]="!displayError()"
+        [class.textarea-error]="displayError()"
+        [required]="isRequired|| required"
+        [placeholder]="placeholder"
+        [rows]="4"
+      ></textarea>
+      <!--    <label *ngIf="type === 'select'"-->
+      <!--           [for]="id"-->
+      <!--           class="select"-->
+      <!--           [class.select-bordered]="!(control?.touched && control?.errors)"-->
+      <!--           [class.select-error]="control?.touched && control?.errors"-->
+      <!--           [class.select-focus]="inputFocus"-->
+      <!--           (click)="selectRef.focus()"-->
+      <!--    >-->
+      <!--      <ng-container [ngTemplateOutlet]="leftIcon"></ng-container>-->
+      <select
+        #selectRef
+        *ngIf="globalType === 'select'"
+        (input)="onInput(selectRef.value)"
+        [required]="isRequired|| required"
+        (focus)="inputFocus = true"
+        (focusout)="inputFocus = false"
+        class="select"
+        [class.select-bordered]="!displayError()"
+        [class.select-error]="displayError()"
+        [class.select-focus]="inputFocus"
+      >
+        <ng-content></ng-content>
+      </select>
+      <!--    </label>-->
+      <input
+        #fileRef
+        *ngIf="globalType === 'file'"
+        class="file-input"
+        [class.file-input-bordered]="!(displayError())"
+        [class.file-input-error]="displayError()"
+        [id]="id"
+        (input)="onInput(fileRef.value)"
+        [required]="isRequired|| required"
+        [type]="type"
+        [placeholder]="placeholder"
+        (focus)="inputFocus = true"
+        (focusout)="inputFocus = false"
+      />
+
+      <div *ngIf="globalType" class="input-flag" [ngClass]="{ height: type === 'textarea' }">
+        <fa-icon *ngIf="['text', 'textarea', 'file'].includes(globalType) && displayError()" class="error-flag" [icon]="faFont.faTriangleExclamation"></fa-icon>
+        <fa-icon *ngIf="!['text', 'textarea', 'file'].includes(globalType)" class="text-xs" [icon]="faFont.faChevronDown"></fa-icon>
+      </div>
+    </div>
+    <div *ngIf="displayError()" class="text-error text-sm pt-1">
+      <p class="text-error" *ngIf="control && control.errors && control.errors['required']">{{ fieldRequiredText }}</p>
+      <p class="text-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="text-error" *ngIf="control && control.errors && control.errors['serverError']">{{ control.errors['serverError'] }}</p>
+    </div>
+    <div *ngIf="helpText">
+      <ng-container [ngTemplateOutlet]="helpText"></ng-container>
+    </div>
+  }
+</div>
+
+<ng-template #leftIcon>
+  <fa-icon *ngIf="icon" [icon]="icon" class="mr-2.5 icon"></fa-icon>
+</ng-template>

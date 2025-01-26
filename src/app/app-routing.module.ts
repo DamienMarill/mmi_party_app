@@ -1,7 +1,69 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent as LoginLoginComponent } from './pages/login/login/login.component';
+import {RegisterComponent} from './pages/login/register/register.component';
+import {ForgetPassComponent} from './pages/login/forget-pass/forget-pass.component';
+import {ResetPassComponent} from './pages/login/reset-pass/reset-pass.component';
+import {ContentComponent} from './pages/content/content.component';
+import {HomeComponent} from './pages/content/home/home.component';
+import {CollectionComponent} from './pages/content/collection/collection.component';
+import {CardComponent} from './pages/content/card/card.component';
+import {LootComponent} from './pages/content/loot/loot.component';
+import {authGuard, publicOnlyGuard} from './shared/guards/auth.guard';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [publicOnlyGuard],
+    children: [
+      {
+        path: '',
+        component: LoginLoginComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+      {
+        path: 'forgot-password',
+        component: ForgetPassComponent,
+      },
+      {
+        path: 'reset-password',
+        component: ResetPassComponent,
+      }
+    ]
+  },
+  {
+    path: '',
+    component: ContentComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'collection',
+        component: CollectionComponent,
+      },
+      {
+        path: 'card:cardId',
+        component: CardComponent,
+      },
+      {
+        path: 'loot',
+        component: LootComponent,
+      }
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

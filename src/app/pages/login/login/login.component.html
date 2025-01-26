@@ -1,0 +1,49 @@
+   <!-- Login Form -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+    <app-input
+      label="Email"
+      type="email"
+      [required]="true"
+      formControlName="email"
+      [errorMessage]="loginForm.get('email')?.errors?.['serverError'] ||
+                     (loginForm.get('email')?.errors?.['email'] ? 'Email invalide' : '') ||
+                     (loginForm.get('email')?.errors?.['required'] ? 'Email requis' : '')"
+    ></app-input>
+
+    <app-input
+      label="Mot de passe"
+      type="password"
+      [required]="true"
+      formControlName="password"
+      [errorMessage]="loginForm.get('password')?.errors?.['serverError'] ||
+                     (loginForm.get('password')?.errors?.['minlength'] ? 'Minimum 8 caractères' : '') ||
+                     (loginForm.get('password')?.errors?.['required'] ? 'Mot de passe requis' : '')"
+    ></app-input>
+
+    <!-- Submit Button -->
+    <button type="submit"
+            class="btn btn-primary w-full mt-4"
+            [disabled]="loginForm.invalid || loginForm.pending">
+      <span *ngIf="!loginForm.pending">Se connecter</span>
+      <span *ngIf="loginForm.pending" class="loading loading-spinner loading-sm"></span>
+    </button>
+
+    <!-- Form Error -->
+    <div *ngIf="loginForm.errors?.['serverError']"
+         class="alert"
+         [ngClass]="{'alert-error': loginForm.errors?.['serverError']?.status === 'error',
+                    'alert-success': loginForm.errors?.['serverError']?.status === 'success'}">
+      {{ loginForm.errors?.['serverError']?.message }}
+    </div>
+  </form>
+
+  <!-- Links -->
+  <div class="flex flex-col gap-2 mt-6 text-center">
+    <a routerLink="/login/forgot-password" class="link link-primary">
+      Mot de passe oublié ?
+    </a>
+    <div class="divider">OU</div>
+    <a routerLink="/login/register" class="link link-primary">
+      Créer un compte
+    </a>
+  </div>
