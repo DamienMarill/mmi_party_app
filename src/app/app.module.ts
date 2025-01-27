@@ -20,6 +20,8 @@ import {CommonModule} from '@angular/common';
 import {provideHttpClient} from '@angular/common/http';
 import { NavbarComponent } from './shared/layout/navbar/navbar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MmiiComponent } from './shared/layout/mmii/mmii.component';
+import { MmiiEditorComponent } from './shared/layout/mmii-editor/mmii-editor.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     CardComponent,
     LootComponent,
     InputComponent,
-    NavbarComponent
+    NavbarComponent,
+    MmiiComponent,
+    MmiiEditorComponent
   ],
   imports: [
     CommonModule,

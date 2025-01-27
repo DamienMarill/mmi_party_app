@@ -1,0 +1,54 @@
+@if (mmiiShape){
+  <div class="card mb-4">
+    <div class="card-body justify-center items-center gap-4">
+      <app-mmii [mmiiShapes]="mmiiShape"></app-mmii>
+    </div>
+  </div>
+  <div>
+    <div role="tablist" class="tabs tabs-lifted">
+      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'tete'" (click)="selectedPart = 'tete'"><fa-icon [icon]="fa.faHeadSide"></fa-icon></button>
+      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'cheveux'" (click)="selectedPart = 'cheveux'"><fa-icon [icon]="fa.faUserHair"></fa-icon></button>
+      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'yeux'" (click)="selectedPart = 'yeux'"><fa-icon [icon]="fa.faEye"></fa-icon></button>
+      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'bouche'" (click)="selectedPart = 'bouche'"><fa-icon [icon]="fa.faLips"></fa-icon></button>
+      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'nez'" (click)="selectedPart = 'nez'"><fa-icon [icon]="fa.faNose"></fa-icon></button>
+    </div>
+    <div class="border border-base-300 border-t-0 rounded-b-md p-4">
+      <div class="flex flex-col gap-4">
+        @if (shapeParts[selectedPart].requiresColor && mmiiShape[selectedPart]){
+          <div class="flex flex-wrap justify-center gap-2">
+            @for (color of shapeParts[selectedPart].availableColors; track color){
+              <button
+                class="w-7 h-7 rounded-md"
+                [style.background-color]="color"
+                (click)="updateColor(selectedPart, color)"
+              ></button>
+            }
+          </div>
+        }
+        <div class="flex flex-wrap justify-center gap-2">
+          @for (image of shapeParts[selectedPart].files; track image){
+            <button
+              class="rounded-md"
+              (click)="updatePart(selectedPart, image)"
+            >
+              @if (shapeParts[selectedPart].color){
+                <div
+                  class="absolute inset-0 w-full h-full"
+                  [style.backgroundColor]="shapeParts[selectedPart].color"
+                  [style.webkitMaskImage]="'url(' + baseFolder + '/' + selectedPart + '/' + image + ')'"
+                  [style.maskImage]="'url(' + baseFolder + '/' + selectedPart + '/' + image + ')'"
+                  style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+                  <img class="w-16 h-16 mix-blend-multiply" [src]="baseFolder + '/' + selectedPart + '/' + image">
+                </div>
+              } @else {
+                <img class="w-16 h-16" [src]="baseFolder + '/' + selectedPart + '/' + image">
+              }
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+

@@ -44,6 +44,7 @@ module.exports = {
 
         "error": "#F1A3A3",
         "error-content": "#7A2424",
+
         "--rounded-box": "1.5rem", // border radius rounded-box utility class, used in card and other large boxes
         "--rounded-btn": "0.75rem", // border radius rounded-btn utility class, used in buttons and similar element
         "--rounded-badge": "0.38rem", // border radius rounded-badge utility class, used in badges and similar

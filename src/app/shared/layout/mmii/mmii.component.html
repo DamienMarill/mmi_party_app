@@ -1,0 +1,27 @@
+@if (mmiiShapes){
+  <div class="aspect-square relative" [ngStyle]="{width: size}">
+    <img class="tete absolute top-0 left-0" [src]="baseFolder+'/tete/'+mmiiShapes.tete.img">
+    <img class="nez absolute top-0 left-0" [src]="baseFolder+'/nez/'+mmiiShapes.nez.img">
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.yeux.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/yeux/'+mmiiShapes.yeux.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/yeux/'+mmiiShapes.yeux.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+        <img class="yeux mix-blend-hard-light" [src]="baseFolder+'/yeux/'+mmiiShapes.yeux.img">
+    </div>
+
+    @if (mmiiShapes.cheveux){
+      <div
+        class="absolute inset-0 w-full h-full"
+        [style.backgroundColor]="mmiiShapes.cheveux.color"
+        [style.webkitMaskImage]="'url(' + baseFolder+'/cheveux/'+mmiiShapes.cheveux.img + ')'"
+        [style.maskImage]="'url(' + baseFolder+'/cheveux/'+mmiiShapes.cheveux.img + ')'"
+        style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+          <img class="cheveux mix-blend-multiply" [src]="baseFolder+'/cheveux/'+mmiiShapes.cheveux.img">
+      </div>
+    }
+    <img class="bouche absolute top-0 left-0" [src]="baseFolder+'/bouche/'+mmiiShapes.bouche.img">
+  </div>
+}
+
