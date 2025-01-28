@@ -1,0 +1,9 @@
+.tab{
+  padding-inline-start: 0.5rem;
+  padding-inline-end: 0.5rem;
+}
+
+.tab-active{
+  padding-inline-start: calc(0.5rem - var(--tab-border, 1px));
+  padding-inline-end: calc(0.5rem - var(--tab-border, 1px));
+}

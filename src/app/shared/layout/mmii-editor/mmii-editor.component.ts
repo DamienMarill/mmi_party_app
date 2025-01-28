@@ -2,7 +2,16 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {ApiService} from '../../services/api.service';
 import { Mmii } from '../../interfaces/mmii';
 import {BaseMMIIPart, ColoredMMIIPart, MmiiShape} from '../../interfaces/mmii-shape';
-import {faHeadSide, faLips, faNose,faUserHair,faEye} from '@fortawesome/pro-solid-svg-icons';
+import {
+  faHeadSide,
+  faLips,
+  faNose,
+  faUserHair,
+  faEye,
+  faSparkles,
+  faMustache,
+  faGlasses
+} from '@fortawesome/pro-solid-svg-icons';
 import {environment} from '../../../../environments/environment';
 
 @Component({
@@ -22,7 +31,10 @@ export class MmiiEditorComponent implements OnChanges {
     faUserHair,
     faLips,
     faEye,
-    faNose
+    faNose,
+    faSparkles,
+    faMustache,
+    faGlasses
   }
 
   //input output mmii
@@ -57,6 +69,7 @@ export class MmiiEditorComponent implements OnChanges {
     return {
       bouche: {
         img: this.shapeParts.bouche.files[0],
+        color: this.shapeParts.bouche.availableColors[0]
       },
       cheveux: {
         img: this.shapeParts.cheveux.files[0],
@@ -72,6 +85,16 @@ export class MmiiEditorComponent implements OnChanges {
       yeux: {
         img: this.shapeParts.yeux.files[0],
         color: this.shapeParts.yeux.availableColors[0]
+      },
+      pilosite: {
+        img: this.shapeParts.pilosite.files[0],
+        color: this.shapeParts.pilosite.availableColors[0]
+      },
+      maquillage: {
+        img: this.shapeParts.maquillage.files[0]
+      },
+      particularites: {
+        img: this.shapeParts.particularites.files[0]
       }
     };
   }
@@ -91,5 +114,12 @@ export class MmiiEditorComponent implements OnChanges {
     if (this.mmiiShape && this.mmiiShape[part]) {
       this.mmiiShape[part].img = img;
     }
+  }
+
+  getCurrentColor(part: keyof MmiiShape){
+    if (this.mmiiShape && this.mmiiShape[part] && this.hasColor(this.mmiiShape[part])) {
+      return this.mmiiShape[part].color;
+    }
+    return;
   }
 }

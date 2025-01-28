@@ -17,26 +17,6 @@ export class MmiiComponent {
   baseFolder = environment.storage + '/mmii';
 
   constructor() {
-    this.mmiiShapes = {
-        bouche: {
-          img: 'mouth1.png'
-        },
-        cheveux: {
-          img: 'hair1.png',
-          color: '#4A2C2A'
-        },
-        nez: {
-          img: 'nez1.png'
-        },
-        tete: {
-          img: 'tete1.png',
-          color: '#0F0'
-        },
-        yeux: {
-          img: 'eyes1.png',
-          color: '#8b5a2b'
-        }
-      };
   }
 
   hexToHSL(hex: string) {

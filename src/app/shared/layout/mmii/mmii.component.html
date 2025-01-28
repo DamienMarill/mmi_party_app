@@ -1,6 +1,14 @@
 @if (mmiiShapes){
   <div class="aspect-square relative" [ngStyle]="{width: size}">
-    <img class="tete absolute top-0 left-0" [src]="baseFolder+'/tete/'+mmiiShapes.tete.img">
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.tete.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/tete/'+mmiiShapes.tete.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/tete/'+mmiiShapes.tete.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+      <img class="tete absolute top-0 left-0 mix-blend-multiply" [src]="baseFolder+'/tete/'+mmiiShapes.tete.img">
+    </div>
+    <img class="maquillage absolute top-0 left-0" [src]="baseFolder+'/maquillage/'+mmiiShapes.maquillage.img">
     <img class="nez absolute top-0 left-0" [src]="baseFolder+'/nez/'+mmiiShapes.nez.img">
     <div
       class="absolute inset-0 w-full h-full"
@@ -21,7 +29,23 @@
           <img class="cheveux mix-blend-multiply" [src]="baseFolder+'/cheveux/'+mmiiShapes.cheveux.img">
       </div>
     }
-    <img class="bouche absolute top-0 left-0" [src]="baseFolder+'/bouche/'+mmiiShapes.bouche.img">
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.bouche.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/bouche/'+mmiiShapes.bouche.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/bouche/'+mmiiShapes.bouche.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+       <img class="bouche absolute top-0 left-0 mix-blend-multiply" [src]="baseFolder+'/bouche/'+mmiiShapes.bouche.img">
+    </div>
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.pilosite.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+      <img class="pilosite mix-blend-multiply" [src]="baseFolder+'/pilosite/'+mmiiShapes.pilosite.img">
+    </div>
+    <img class="particularites absolute top-0 left-0" [src]="baseFolder+'/particularites/'+mmiiShapes.particularites.img">
   </div>
 }
 
