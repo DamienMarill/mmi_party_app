@@ -5,32 +5,74 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
   ],
+  safelist: [
+    { pattern: /border-rarity-[a-z]*/ },
+    { pattern: /shadow-rarity-[a-z]*/ },
+    { pattern: /text-stats-[a-z_]*-[a-z]*/ },
+    { pattern: /border-stats-[a-z_]*-[a-z]*/ },
+    { pattern: /bg-stats-[a-z_]*-[a-z]*/ },
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        stats: {
+          dev: {
+            dark: "#6EC89B",
+            light: "#DFEAE2"
+          },
+          ux_ui: {
+            dark: "#9575CD",
+            light: "#BFA2E6"
+          },
+          graphisme:{
+            dark: "#5C9BE6",
+            light: "#A0C4F2",
+          },
+          audiovisuel: {
+            dark: "#E57373",
+            light: "#E8CDCD",
+          },
+          trois_d: {
+            dark: "#4DB6AC",
+            light: "#BCDDE2",
+          },
+          communication: {
+            dark: "#D1A054",
+            light: "#EAD9B9",
+          },
+        },
+        rarity: {
+          'common': '#FFC5D6',
+          'uncommon': '#FF998E',
+          'rare': '#91CDE3',
+          'epic': '#FFC985',
+        }
+      },
+    },
   },
   daisyui: {
     themes: [{
       watercolor: {
-        "primary": "#82A0D8",          // Bleu lavande doux
-        "primary-focus": "#6B87C2",
-        "primary-content": "#ffffff",
+        "primary": "#91CDE3",          // Bleu lavande doux
+        // "primary-focus": "#6B87C2",
+        // "primary-content": "#ffffff",
 
-        "secondary": "#E4A5FF",        // Rose-violet pastel
-        "secondary-focus": "#D190EE",
-        "secondary-content": "#ffffff",
+        "secondary": "#FFC985",        // Rose-violet pastel
+        // "secondary-focus": "#D190EE",
+        // "secondary-content": "#ffffff",
 
-        "accent": "#95D1CC",           // Turquoise clair
-        "accent-focus": "#7BC0BA",
-        "accent-content": "#ffffff",
+        "accent": "#FFC5D6",           // Turquoise clair
+        // "accent-focus": "#7BC0BA",
+        // "accent-content": "#ffffff",
 
         "neutral": "#F9FAFB",          // Gris bleuté
         "neutral-focus": "#374151",
-        "neutral-content": "#374151",
+        "neutral-content": "#28201E",
 
-        "base-100": "#F3F2F5",      // Blanc pur
-        "base-200": "#ACA7B7",      // Gris plus contrasté
-        "base-300": "#655C7A",      // Gris encore plus foncé
-        "base-content": "#17151C",
+        "base-100": "#FEFCFA",      // Blanc pur
+        "base-200": "#C6B7AC",      // Gris plus contrasté
+        "base-300": "#8E7F70",      // Gris encore plus foncé
+        "base-content": "#28201E",
 
         // États avec leurs couleurs content
         "info": "#89B9E1",

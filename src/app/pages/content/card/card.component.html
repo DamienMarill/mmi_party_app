@@ -1,1 +1,46 @@
-<p>card works!</p>
+<div class="flex flex-col gap-6 items-center">
+  <div class="card relative overflow-hidden w-full border-4 border-collapse shadow-sm" [ngClass]="['border-rarity-'+cardVersion?.rarity, 'shadow-rarity-'+cardVersion?.rarity]">
+    <div class="absolute w-full h-full rounded-2xl shadow-inner z-10" [ngClass]="['shadow-rarity-'+cardVersion?.rarity]"></div>
+    @if (cardVersion?.image){
+      <img class="rounded-t-2xl" [src]="assetsService.getCardImgUrl(cardVersion?.image)" alt="Card image">
+    }@else{
+      <div [style.background-image]="'url(\''+assetsService.getBgUrl(cardVersion?.card_template?.mmii?.background)+'\')'" class="bg-cover rounded-t-2xl">
+        <div class="rounded-t-2xl backdrop-blur-sm p-4 pb-0 flex justify-center items-center">
+          <app-mmii size="20rem" [mmiiShapes]="cardVersion?.card_template?.mmii?.shape"></app-mmii>
+        </div>
+      </div>
+    }
+
+  </div>
+  <h2 class="text-center">{{ cardVersion?.card_template?.name }}</h2>
+  <h3><fa-icon class="mr-2" [icon]="fa.faLayerGroup"></fa-icon>
+    @if (cardVersion?.card_template?.type === CardType.Student){
+      MMI{{cardVersion?.card_template?.level}}
+    } @else if (cardVersion?.card_template?.type === CardType.Staff){
+      Enseignant et supporter
+    } @else if (cardVersion?.card_template?.type === CardType.Objet){
+      Objet
+    }
+  </h3>
+  @if (cardVersion?.card_template?.type === CardType.Student){
+    <div class="flex flex-col items-center">
+      <div class="card">
+        <div class="card-body">
+          <app-tetris [shape]="cardVersion?.card_template?.shape"></app-tetris>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-4">
+      @if (cardVersion?.card_template){
+        @for (stat of cardVersion?.card_template?.stats|keyvalue; track stat.key) {
+          <div class="card">
+            <div class="card-body">
+              <app-stat-element [statElement]="stat.key"></app-stat-element>
+              <p class="text-3xl text-center">{{ stat.value }}</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

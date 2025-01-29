@@ -1,0 +1,10 @@
+<div>
+  @for (ligne of shape; track ligne) {
+    <div class="flex">
+      @for (colonne of ligne; track colonne) {
+        <div class="border-base-content" [style]="{'width': size, 'height': size}" [ngClass]="{'border': colonne}">
+        </div>
+      }
+    </div>
+  }
+</div>

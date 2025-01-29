@@ -18,7 +18,14 @@
       style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
         <img class="yeux mix-blend-hard-light" [src]="baseFolder+'/yeux/'+mmiiShapes.yeux.img">
     </div>
-
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.pilosite.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+      <img class="pilosite mix-blend-multiply" [src]="baseFolder+'/pilosite/'+mmiiShapes.pilosite.img">
+    </div>
     @if (mmiiShapes.cheveux){
       <div
         class="absolute inset-0 w-full h-full"
@@ -36,14 +43,6 @@
       [style.maskImage]="'url(' + baseFolder+'/bouche/'+mmiiShapes.bouche.img + ')'"
       style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
        <img class="bouche absolute top-0 left-0 mix-blend-multiply" [src]="baseFolder+'/bouche/'+mmiiShapes.bouche.img">
-    </div>
-    <div
-      class="absolute inset-0 w-full h-full"
-      [style.backgroundColor]="mmiiShapes.pilosite.color"
-      [style.webkitMaskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
-      [style.maskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
-      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
-      <img class="pilosite mix-blend-multiply" [src]="baseFolder+'/pilosite/'+mmiiShapes.pilosite.img">
     </div>
     <img class="particularites absolute top-0 left-0" [src]="baseFolder+'/particularites/'+mmiiShapes.particularites.img">
   </div>

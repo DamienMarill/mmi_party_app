@@ -22,6 +22,9 @@ import { NavbarComponent } from './shared/layout/navbar/navbar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MmiiComponent } from './shared/layout/mmii/mmii.component';
 import { MmiiEditorComponent } from './shared/layout/mmii-editor/mmii-editor.component';
+import { MmiiCardComponent } from './shared/layout/mmii-card/mmii-card.component';
+import { TetrisComponent } from './shared/layout/tetris/tetris.component';
+import { StatElementComponent } from './shared/layout/stat-element/stat-element.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { MmiiEditorComponent } from './shared/layout/mmii-editor/mmii-editor.com
     InputComponent,
     NavbarComponent,
     MmiiComponent,
-    MmiiEditorComponent
+    MmiiEditorComponent,
+    MmiiCardComponent,
+    TetrisComponent,
+    StatElementComponent
   ],
   imports: [
     CommonModule,

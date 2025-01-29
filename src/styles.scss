@@ -17,3 +17,7 @@
   box-shadow: 0 0px 10px 0px oklch(var(--b1) / 1),
             inset 0 3px 10px -6px oklch(var(--b2) / 1)
 }
+
+.btm-nav{
+  @apply bg-base-100/80;
+}

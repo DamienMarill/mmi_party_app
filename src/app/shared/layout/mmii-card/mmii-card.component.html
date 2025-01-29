@@ -1,0 +1,15 @@
+<div class="card relative overflow-hidden w-full border-4 border-collapse shadow-sm" [ngClass]="['border-rarity-'+cardVersion?.rarity, 'shadow-rarity-'+cardVersion?.rarity]">
+  <div class="absolute w-full h-full rounded-2xl shadow-inner z-10" [ngClass]="['shadow-rarity-'+cardVersion?.rarity]"></div>
+  @if (cardVersion?.image){
+    <img class="rounded-t-2xl" [src]="assetsService.getCardImgUrl(cardVersion?.image)" alt="Card image">
+  }@else{
+    <div [style.background-image]="'url(\''+assetsService.getBgUrl(cardVersion?.card_template?.mmii?.background)+'\')'" class="bg-cover rounded-t-2xl">
+      <div class="rounded-t-2xl backdrop-blur-sm p-4 pb-0 flex justify-center items-center">
+        <app-mmii size="10rem" [mmiiShapes]="cardVersion?.card_template?.mmii?.shape"></app-mmii>
+      </div>
+    </div>
+  }
+  <div class="card-body">
+    <p class="text-xs text-center">{{cardVersion?.card_template?.name}}</p>
+  </div>
+</div>

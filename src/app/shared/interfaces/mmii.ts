@@ -2,5 +2,7 @@ import {MmiiShape} from './mmii-shape';
 
 export interface Mmii {
   id: string;
-  shapes: MmiiShape;
+  image: string;
+  background: string;
+  shape: MmiiShape;
 }

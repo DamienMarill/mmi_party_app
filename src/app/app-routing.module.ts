@@ -53,7 +53,7 @@ const routes: Routes = [
         component: CollectionComponent,
       },
       {
-        path: 'card:cardId',
+        path: 'card/:cardId',
         component: CardComponent,
         data: {nav: {showNav: false, showBack: true}}
       },

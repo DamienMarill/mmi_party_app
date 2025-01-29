@@ -1,12 +1,12 @@
 export interface MmiiShape {
-  bouche: ColoredMMIIPart;
-  cheveux: ColoredMMIIPart;
-  maquillage: BaseMMIIPart;
-  nez: BaseMMIIPart;
+  bouche: ColoredMMIIPart; //
+  cheveux: ColoredMMIIPart; //
+  maquillage: BaseMMIIPart; //
+  nez: BaseMMIIPart; //
   particularites: BaseMMIIPart;
   pilosite: ColoredMMIIPart;
-  tete: ColoredMMIIPart;
-  yeux: ColoredMMIIPart
+  tete: ColoredMMIIPart; //
+  yeux: ColoredMMIIPart //
 }
 
 export type BaseMMIIPart = {
