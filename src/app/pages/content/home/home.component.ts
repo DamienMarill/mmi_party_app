@@ -12,11 +12,18 @@ import {AssetsService} from '../../../shared/services/assets.service';
 })
 export class HomeComponent implements OnInit{
   user?: User;
+  lootavailable?: boolean;
 
   constructor(
     private apiService: ApiService,
     public assetsService: AssetsService
-  ) {}
+  ) {
+    this.apiService.request<any>('GET','/me/loot/availability')
+      .subscribe((data) => {
+        console.log(data);
+        this.lootavailable = data.available;
+      });
+  }
 
   ngOnInit(): void {
     this.apiService.user$.subscribe(user => {

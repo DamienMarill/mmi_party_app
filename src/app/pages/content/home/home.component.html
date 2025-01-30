@@ -18,10 +18,21 @@
   </a>
   <a [routerLink]="['/loot']">
     <div class="card">
-      <div class="card-body justify-center items-center gap-4">
-        <img src="/assets/kdo.png" class="rounded-md w-52">
-        <h3>Tirage disponible</h3>
-      </div>
+      @if (lootavailable !== undefined){
+        @if (lootavailable){
+          <div class="card-body justify-center items-center gap-4">
+            <img src="/assets/kdo.png" class="rounded-md w-52">
+            <h3 class="text-center">Tirage disponible</h3>
+          </div>
+        } @else {
+          <div class="card-body justify-center items-center gap-4">
+            <div class="grayscale">
+              <img src="/assets/kdo.png" class="rounded-md w-52">
+            </div>
+            <h3 class="text-center">Tirage non disponible</h3>
+          </div>
+        }
+      }
     </div>
   </a>
 </div>
