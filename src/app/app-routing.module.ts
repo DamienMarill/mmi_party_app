@@ -11,6 +11,7 @@ import {CollectionComponent} from './pages/content/collection/collection.compone
 import {CardComponent} from './pages/content/card/card.component';
 import {LootComponent} from './pages/content/loot/loot.component';
 import {authGuard, publicOnlyGuard} from './shared/guards/auth.guard';
+import {SettingsComponent} from './pages/content/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        data: {nav: {showNav: false, showBack: true}},
       },
       {
         path: 'collection',

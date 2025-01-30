@@ -1,0 +1,5 @@
+@if (rarity){
+  <div class="transition-opacity duration-100" [class.opacity-0]="!show">
+    <img class="shake-hard animate-pulse" [src]="'/assets/orbe_'+getRarityIndex(rarity)+'.png'">
+  </div>
+}

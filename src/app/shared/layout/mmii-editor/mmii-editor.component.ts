@@ -10,7 +10,7 @@ import {
   faEye,
   faSparkles,
   faMustache,
-  faGlasses
+  faGlasses, faFaceRaisedEyebrow, faShirt
 } from '@fortawesome/pro-solid-svg-icons';
 import {environment} from '../../../../environments/environment';
 
@@ -34,7 +34,9 @@ export class MmiiEditorComponent implements OnChanges {
     faNose,
     faSparkles,
     faMustache,
-    faGlasses
+    faGlasses,
+    faFaceRaisedEyebrow,
+    faShirt,
   }
 
   //input output mmii
@@ -94,7 +96,16 @@ export class MmiiEditorComponent implements OnChanges {
         img: this.shapeParts.maquillage.files[0]
       },
       particularites: {
-        img: this.shapeParts.particularites.files[0]
+        img: this.shapeParts.particularites.files[0],
+        color: this.shapeParts.particularites.availableColors[0]
+      },
+      sourcils: {
+        img: this.shapeParts.sourcils.files[0],
+        color: this.shapeParts.sourcils.availableColors[0]
+      },
+      pull: {
+        img: this.shapeParts.pull.files[0],
+        color: this.shapeParts.pull.availableColors[0]
       }
     };
   }

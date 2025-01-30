@@ -25,6 +25,9 @@ import { MmiiEditorComponent } from './shared/layout/mmii-editor/mmii-editor.com
 import { MmiiCardComponent } from './shared/layout/mmii-card/mmii-card.component';
 import { TetrisComponent } from './shared/layout/tetris/tetris.component';
 import { StatElementComponent } from './shared/layout/stat-element/stat-element.component';
+import { OrbeComponent } from './shared/layout/orbe/orbe.component';
+import { SettingsComponent } from './pages/content/settings/settings.component';
+import { AutoCropDirective } from './shared/directives/auto-crop.directive';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import { StatElementComponent } from './shared/layout/stat-element/stat-element.
     MmiiEditorComponent,
     MmiiCardComponent,
     TetrisComponent,
-    StatElementComponent
+    StatElementComponent,
+    OrbeComponent,
+    SettingsComponent,
+    AutoCropDirective
   ],
   imports: [
     CommonModule,

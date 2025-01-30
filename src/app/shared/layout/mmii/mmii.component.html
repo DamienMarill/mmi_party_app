@@ -20,6 +20,14 @@
     </div>
     <div
       class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.sourcils.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/sourcils/'+mmiiShapes.sourcils.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/sourcils/'+mmiiShapes.sourcils.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+        <img class="sourcils mix-blend-hard-light" [src]="baseFolder+'/sourcils/'+mmiiShapes.sourcils.img">
+    </div>
+    <div
+      class="absolute inset-0 w-full h-full"
       [style.backgroundColor]="mmiiShapes.pilosite.color"
       [style.webkitMaskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
       [style.maskImage]="'url(' + baseFolder+'/pilosite/'+mmiiShapes.pilosite.img + ')'"
@@ -44,7 +52,22 @@
       style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
        <img class="bouche absolute top-0 left-0 mix-blend-multiply" [src]="baseFolder+'/bouche/'+mmiiShapes.bouche.img">
     </div>
-    <img class="particularites absolute top-0 left-0" [src]="baseFolder+'/particularites/'+mmiiShapes.particularites.img">
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.particularites.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/particularites/'+mmiiShapes.particularites.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/particularites/'+mmiiShapes.particularites.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+        <img class="particularites absolute top-0 left-0 mix-blend-multiply" [src]="baseFolder+'/particularites/'+mmiiShapes.particularites.img">
+    </div>
+    <div
+      class="absolute inset-0 w-full h-full"
+      [style.backgroundColor]="mmiiShapes.pull.color"
+      [style.webkitMaskImage]="'url(' + baseFolder+'/pull/'+mmiiShapes.pull.img + ')'"
+      [style.maskImage]="'url(' + baseFolder+'/pull/'+mmiiShapes.pull.img + ')'"
+      style="mask-size: 100% 100%; -webkit-mask-size: 100% 100%;">
+        <img class="pull absolute top-0 left-0 mix-blend-multiply" [src]="baseFolder+'/pull/'+mmiiShapes.pull.img">
+    </div>
   </div>
 }
 

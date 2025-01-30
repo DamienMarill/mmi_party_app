@@ -1,1 +1,25 @@
-<p>loot works!</p>
+<div class="flex flex-col items-center pt-14">
+  @if (lootbox){
+    <div class="aspect-square w-2/3 relative mb-20">
+        <div class="absolute inset-0 animate_orbes">
+          @for (card of lootbox.cards; track card.id; let i = $index) {
+            <div class="absolute w-32 h-32" [ngStyle]="getPosition(i)">
+              <div class="animate_orbe">
+                <app-orbe [show]="showOrbe[i]" [rarity]="card.card_version?.rarity"></app-orbe>
+              </div>
+            </div>
+          }
+        </div>
+    </div>
+    <div class="flex justify-center w-full">
+        <div (click)="passCard()" class="relative w-52 scale-150 transition-opacity duration-300" [class.opacity-0]="!isLoaded">
+          @for (card of lootbox.cards; track card.id; let i = $index) {
+            <div class="absolute w-full transition-opacity duration-200" [style]="{zIndex: showOrbe.length - i}" [class.opacity-0]="!showOrbe[i]">
+              <app-mmii-card [cardVersion]="card.card_version"></app-mmii-card>
+            </div>
+          }
+        </div>
+    </div>
+  }
+</div>
+
