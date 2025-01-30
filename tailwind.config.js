@@ -8,6 +8,7 @@ module.exports = {
   safelist: [
     { pattern: /border-rarity-[a-z]*/ },
     { pattern: /shadow-rarity-[a-z]*/ },
+    { pattern: /bg-rarity-[a-z]*/ },
     { pattern: /text-stats-[a-z_]*-[a-z]*/ },
     { pattern: /border-stats-[a-z_]*-[a-z]*/ },
     { pattern: /bg-stats-[a-z_]*-[a-z]*/ },
@@ -49,6 +50,21 @@ module.exports = {
         }
       },
     },
+    animation: {
+      'gradient-xy': 'gradient-xy 15s ease infinite',
+    },
+    keyframes: {
+      'gradient-xy': {
+        '0%, 100%': {
+          'background-size': '400% 400%',
+          'background-position': 'left center'
+        },
+        '50%': {
+          'background-size': '200% 200%',
+          'background-position': 'right center'
+        }
+      }
+    }
   },
   daisyui: {
     themes: [{

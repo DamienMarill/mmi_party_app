@@ -1,9 +1,12 @@
+import {Mmii} from './mmii';
+
 export interface User {
   id: string;
   name: string;
   email: string;
   um_email: string;
   group: GroupUser;
+  mmii: Mmii;
   created_at: string;
   updated_at: string;
 }

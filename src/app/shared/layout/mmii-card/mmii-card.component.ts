@@ -11,6 +11,7 @@ import {AssetsService} from '../../services/assets.service';
 })
 export class MmiiCardComponent {
   @Input()cardVersion?: CardVersion;
+  @Input()count?: number;
 
   constructor(
     public assetsService: AssetsService

@@ -1,0 +1,16 @@
+<div class="carousel carousel-center bg-neutral rounded-box max-w-md space-x-4 p-4">
+  @for (background of backgrounds; track background) {
+    <div class="carousel-item relative" (click)="changeBg(background)">
+      <img
+        [class.border-4] = "bgName === background"
+        [src]="assetsService.getBgUrl(background)"
+        class="rounded-lg w-52 border-primary" />
+      @if (bgName === background) {
+        <div class="rounded-full p-2 bg-base-100 absolute bottom-2 right-2 w-8 h-8 flex justify-center items-center">
+          <fa-icon [icon]="fa.faCheck" class="text-primary"></fa-icon>
+        </div>
+      }
+    </div>
+  }
+
+</div>

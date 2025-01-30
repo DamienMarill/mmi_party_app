@@ -1,0 +1,29 @@
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+  <!-- Premier orbe -->
+  <div
+    *ngIf="circle1$ | async as circle1"
+    class="absolute w-[50vw] h-[50vw] rounded-full blur-[100px]
+               transition-all duration-[1500ms] ease-out"
+    [ngClass]="circle1.color"
+    [ngStyle]="{
+          left: circle1.position.x + 'vw',
+          top: circle1.position.y + 'vh',
+          transform: 'translate(-50%, -50%)',
+          transition: 'left 1.5s cubic-bezier(0.4, 0, 0.2, 1), top 1.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 2s ease-in-out'
+        }"
+  ></div>
+
+  <!-- Second orbe avec timing différent -->
+  <div
+    *ngIf="circle2$ | async as circle2"
+    class="absolute w-[50vw] h-[50vw] rounded-full blur-[100px]
+               transition-all duration-[2000ms] ease-in-out"
+    [ngClass]="circle2.color"
+    [ngStyle]="{
+          left: circle2.position.x + 'vw',
+          top: circle2.position.y + 'vh',
+          transform: 'translate(-50%, -50%)',
+          transition: 'left 2s cubic-bezier(0.4, 0, 0.2, 1), top 2s cubic-bezier(0.4, 0, 0.2, 1), background-color 2.5s ease-in-out'
+        }"
+  ></div>
+</div>

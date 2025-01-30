@@ -22,6 +22,7 @@ import {environment} from '../../../../environments/environment';
   styleUrl: './mmii-editor.component.scss'
 })
 export class MmiiEditorComponent implements OnChanges {
+
   shapeParts: any;
   selectedPart: keyof MmiiShape = 'tete';
   baseFolder = environment.storage + '/mmii';

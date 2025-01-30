@@ -12,6 +12,7 @@ import {CardComponent} from './pages/content/card/card.component';
 import {LootComponent} from './pages/content/loot/loot.component';
 import {authGuard, publicOnlyGuard} from './shared/guards/auth.guard';
 import {SettingsComponent} from './pages/content/settings/settings.component';
+import {GenerateCardsComponent} from './pages/admin/generate-cards/generate-cards.component';
 
 const routes: Routes = [
   {

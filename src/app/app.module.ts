@@ -28,6 +28,9 @@ import { StatElementComponent } from './shared/layout/stat-element/stat-element.
 import { OrbeComponent } from './shared/layout/orbe/orbe.component';
 import { SettingsComponent } from './pages/content/settings/settings.component';
 import { AutoCropDirective } from './shared/directives/auto-crop.directive';
+import { GenerateCardsComponent } from './pages/admin/generate-cards/generate-cards.component';
+import { EditBgComponent } from './shared/layout/edit-bg/edit-bg.component';
+import { BackgroundCirclesComponent } from './shared/layout/background-circles/background-circles.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { AutoCropDirective } from './shared/directives/auto-crop.directive';
     StatElementComponent,
     OrbeComponent,
     SettingsComponent,
-    AutoCropDirective
+    AutoCropDirective,
+    GenerateCardsComponent,
+    EditBgComponent,
+    BackgroundCirclesComponent
   ],
   imports: [
     CommonModule,

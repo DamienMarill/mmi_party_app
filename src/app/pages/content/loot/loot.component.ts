@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {Lootbox} from '../../../shared/interfaces/lootbox';
 import {Router} from '@angular/router';
+import {ConfettiService} from '../../../shared/services/confetti.service';
 
 @Component({
   selector: 'app-loot',
@@ -19,7 +20,8 @@ export class LootComponent {
 
     constructor(
       private apiService: ApiService,
-      private router: Router
+      private router: Router,
+      private confettiService: ConfettiService
     ) {
       this.apiService.request<Lootbox>('GET', '/me/loot')
         .subscribe((response) => {
@@ -35,6 +37,7 @@ export class LootComponent {
           }
           setTimeout(() => {
             this.isLoaded = true;
+            this.fireworks();
           }, 300 * this.lootbox.cards.length+1);
         });
     }
@@ -61,7 +64,27 @@ export class LootComponent {
         setTimeout(() => {
           this.router.navigate(['/collection']);
         }, 300);
+      }else{
+        this.fireworks();
       }
     }
+  }
+
+  fireworks(){
+    switch (this.lootbox?.cards[this.count].card_version?.rarity) {
+      case 'common':
+        this.confettiService.cannon();
+        break;
+      case 'uncommon':
+        this.confettiService.doubleCannon();
+        break;
+      case 'rare':
+        this.confettiService.fireworks();
+        break;
+      case 'epic':
+        this.confettiService.stars();
+        break;
+    }
+
   }
 }

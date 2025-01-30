@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import { User } from '../../../shared/interfaces/user';
+import {AssetsService} from '../../../shared/services/assets.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,10 @@ import { User } from '../../../shared/interfaces/user';
 export class HomeComponent implements OnInit{
   user?: User;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    public assetsService: AssetsService
+  ) {}
 
   ngOnInit(): void {
     this.apiService.user$.subscribe(user => {

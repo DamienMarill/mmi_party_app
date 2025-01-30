@@ -7,4 +7,5 @@ export interface CardInstance {
   card_version?: CardVersion;
   lootbox?: Lootbox;
   owner?: User;
+  count?: number;
 }
