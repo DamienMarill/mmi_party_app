@@ -13,6 +13,8 @@ import {LootComponent} from './pages/content/loot/loot.component';
 import {authGuard, publicOnlyGuard} from './shared/guards/auth.guard';
 import {SettingsComponent} from './pages/content/settings/settings.component';
 import {GenerateCardsComponent} from './pages/admin/generate-cards/generate-cards.component';
+import {TradeComponent} from './pages/content/trade/trade.component';
+import {FightComponent} from './pages/content/fight/fight.component';
 
 const routes: Routes = [
   {
@@ -68,6 +70,16 @@ const routes: Routes = [
         path: 'loot',
         component: LootComponent,
         data: {nav: {showNav: false, showBack: false}}
+      },
+      {
+        path: 'trade',
+        component: TradeComponent,
+        data: {nav: {showNav: true, showBack: false}}
+      },
+      {
+        path: 'fight',
+        component: FightComponent,
+        data: {nav: {showNav: true, showBack: false}}
       }
     ],
   },

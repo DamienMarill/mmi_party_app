@@ -32,6 +32,8 @@ import { GenerateCardsComponent } from './pages/admin/generate-cards/generate-ca
 import { EditBgComponent } from './shared/layout/edit-bg/edit-bg.component';
 import { BackgroundCirclesComponent } from './shared/layout/background-circles/background-circles.component';
 import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill-allocation.component';
+import { TradeComponent } from './pages/content/trade/trade.component';
+import { FightComponent } from './pages/content/fight/fight.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill
     GenerateCardsComponent,
     EditBgComponent,
     BackgroundCirclesComponent,
-    SkillAllocationComponent
+    SkillAllocationComponent,
+    TradeComponent,
+    FightComponent
   ],
   imports: [
     CommonModule,
