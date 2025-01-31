@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import {AssetsService} from '../../services/assets.service';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,8 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons';
   styleUrl: './edit-bg.component.scss'
 })
 export class EditBgComponent {
-    @Output()background: EventEmitter<string> = new EventEmitter<string>();
+    @Input()background?: string;
+    @Output()backgroundChange: EventEmitter<string> = new EventEmitter<string>();
     bgName: string = '';
 
     backgrounds: string[] = [];
@@ -33,6 +34,6 @@ export class EditBgComponent {
 
     changeBg(bgName: string) {
       this.bgName = bgName;
-      this.background.emit(bgName);
+      this.backgroundChange.emit(bgName);
     }
 }

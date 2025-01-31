@@ -1,1 +1,192 @@
-<p>register works!</p>
+@if (!isFinished) {
+  <div class="flex flex-col gap-6 max-w-md mx-auto p-4">
+    <!-- Stepper -->
+    <div class="steps w-full">
+      <a class="step" [ngClass]="{'step-primary': currentStep >= 1}">Infos</a>
+      <a class="step" [ngClass]="{'step-primary': currentStep >= 2}">Université</a>
+      <a class="step" [ngClass]="{'step-primary': currentStep >= 3}">Avatar</a>
+      <a class="step" [ngClass]="{'step-primary': currentStep >= 4}">Profil</a>
+    </div>
+
+    <div class="grid gap-4">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+        <!-- Step 1: Informations de base -->
+        <div *ngIf="currentStep === 1">
+          <app-input
+            label="Prénom"
+            formControlName="firstName"
+            [required]="true"
+            [errorMessage]="registerForm.get('firstName')?.errors?.['required'] ? 'Prénom requis' : ''"
+          ></app-input>
+
+          <app-input
+            label="Nom"
+            formControlName="lastName"
+            [required]="true"
+            [errorMessage]="registerForm.get('lastName')?.errors?.['required'] ? 'Nom requis' : ''"
+          ></app-input>
+
+          <app-input
+            label="Email"
+            type="email"
+            formControlName="email"
+            [required]="true"
+            [errorMessage]="registerForm.get('email')?.errors?.['email'] ? 'Email invalide' : ''"
+          ></app-input>
+
+          <app-input
+            label="Mot de passe"
+            type="password"
+            formControlName="password"
+            [required]="true"
+            [errorMessage]="
+    registerForm.get('password')?.errors?.['required'] ? 'Mot de passe requis' :
+    registerForm.get('password')?.errors?.['minlength'] ? 'Minimum 8 caractères' :
+    registerForm.get('password')?.errors?.['passwordRequirements'] ?
+      ((!registerForm.get('password')?.errors?.['passwordRequirements']?.hasUpperCase ? 'Une majuscule' : '') +
+       (!registerForm.get('password')?.errors?.['passwordRequirements']?.hasLowerCase ? ' Une minuscule' : '') +
+       (!registerForm.get('password')?.errors?.['passwordRequirements']?.hasNumeric ? ' Un chiffre' : '')) + ' requis'
+    : ''"
+          ></app-input>
+
+          <app-input
+            label="Confirmation du mot de passe"
+            type="password"
+            formControlName="confirmPassword"
+            [required]="true"
+            [errorMessage]="registerForm.get('confirmPassword')?.errors?.['required'] ? 'Confirmation requise' :
+                  registerForm.get('confirmPassword')?.errors?.['confirmPassword'] ? 'Les mots de passe ne correspondent pas' : ''"
+          ></app-input>
+        </div>
+
+        <!-- Step 2: Vérification université -->
+        <div *ngIf="currentStep === 2">
+          <app-input
+            label="Email universitaire"
+            type="email"
+            formControlName="um_email"
+            [required]="true"
+            [errorMessage]="registerForm.get('um_email')?.errors?.['email'] ? 'Email invalide' :
+                    registerForm.get('um_email')?.errors?.['serverError']?.message"
+          ></app-input>
+          <button
+            type="button"
+            class="btn btn-primary w-full mt-4"
+            (click)="registerEmail()"
+            [disabled]="registerForm.get('um_email')?.invalid"
+          >
+            Créer le compte
+          </button>
+
+          @if (isEmailRegistered) {
+            <div class="alert alert-info my-4">
+              Un code de vérification a été envoyé à votre adresse email universitaire.
+              Veuillez vérifier votre boîte de réception et entrer le code ci-dessous.
+            </div>
+
+            <div class="flex gap-4 items-center">
+
+              <app-input
+                label="Code de vérification"
+                formControlName="verificationCode"
+                [required]="true"
+                [errorMessage]="registerForm.get('verificationCode')?.errors?.['serverError']?.message"
+                class="flex-1"
+              ></app-input>
+
+              <button
+                type="button"
+                (click)="verifyCode()"
+                class="btn btn-primary self-end"
+                [disabled]="!registerForm.get('verificationCode')?.valid"
+              >
+                Vérifier
+              </button>
+            </div>
+
+            <select
+              *ngIf="isStudentEmail(registerForm.get('um_email')?.value) && isCodeVerified"
+              formControlName="studentType"
+              class="select select-bordered w-full mt-4"
+            >
+              <option value="">Sélectionner votre année</option>
+              <option value="MMI1">MMI1</option>
+              <option value="MMI2">MMI2</option>
+              <option value="MMI3">MMI3</option>
+              <option value="other">Autre</option>
+            </select>
+          }
+
+        </div>
+
+        <!-- Step 3: MMII (commentaire à implémenter) -->
+        <div *ngIf="currentStep === 3" formGroupName="mmiiData">
+          <app-mmii-editor (mmiiShapeChange)="updateMmii($event)"></app-mmii-editor>
+        </div>
+
+        <!-- Step 4: Background et skills -->
+        <div *ngIf="currentStep === 4 && isStudentEmail(registerForm.get('um_email')?.value)">
+          <div class="mb-4">
+            <app-edit-bg (backgroundChange)="updateBg($event)"></app-edit-bg>
+          </div>
+          <div
+            formGroupName="skills"
+            class="mt-4">
+            <!-- Sliders pour les skills -->
+            <div class="grid gap-4">
+              <app-skill-allocation
+                #skillAllocation
+                [promo]="registerForm.get('studentType')?.value"
+                (skillPoints)="updateSkills($event)"
+              ></app-skill-allocation>
+            </div>
+          </div>
+        </div>
+
+        @for (key of Object.keys(registerForm.controls); track key) {
+          @if (registerForm.get(key)?.errors?.['serverError']) {
+            <div class="alert alert-error">{{ registerForm.get(key)?.errors?.['serverError']?.message }}</div>
+          }
+        }
+
+        <!-- Navigation buttons -->
+        <div class="flex justify-between mt-4">
+          <button
+            type="button"
+            class="btn btn-outline"
+            [class.opacity-0] = "currentStep <= 1"
+            [disabled]="currentStep <= 1"
+            (click)="previousStep()"
+          >
+            Précédent
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            *ngIf="currentStep < 4"
+            (click)="nextStep()"
+            [disabled]="!isStepValid()"
+          >
+            Suivant
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            *ngIf="currentStep === 4"
+            [disabled]="registerForm.invalid"
+          >
+            Finaliser l'inscription
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+} @else {
+  <div class="flex flex-col items-center gap-6 max-w-md mx-auto p-4">
+    <p class="text-xl text-center">Félicitation, votre inscription est terminée !</p>
+    <a class="btn btn-primary" [routerLink]="['/login']">yeay !</a>
+  </div>
+}
+

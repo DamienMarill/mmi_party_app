@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 gap-4">
   <app-input [label]="'Nom'" [(ngModel)]="name"></app-input>
   <app-mmii-editor (mmiiShapeChange)="shapes = $event"></app-mmii-editor>
-  <app-edit-bg (background)="background = $event"></app-edit-bg>
+  <app-edit-bg (backgroundChange)="background = $event"></app-edit-bg>
 
   <button class="btn btn-accent" (click)="generate()">Générer</button>
 </div>

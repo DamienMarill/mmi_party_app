@@ -1,1 +1,6 @@
-<app-mmii-editor></app-mmii-editor>
+<div class="grid gap-4">
+  <app-mmii-editor [(mmiiShape)]="mmiiShape" (mmiiShapeChange)="changeMMiiShape($event)"></app-mmii-editor>
+  <app-edit-bg [(background)]="background" (backgroundChange)="changeBackground($event)"></app-edit-bg>
+</div>
+
+

@@ -15,4 +15,8 @@ export class AssetsService {
   getCardImgUrl(path?: string): string{
     return environment.storage + '/card_image/' + path;
   }
+
+  getCardTemplateUrl(path?: string): string{
+    return environment.storage + '/fullart/' + path;
+  }
 }

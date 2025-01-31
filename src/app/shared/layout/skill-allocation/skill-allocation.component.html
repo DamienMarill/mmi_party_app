@@ -1,0 +1,43 @@
+<div class="card bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Points de compétences</h2>
+    <div class="text-sm mb-4">
+      Points disponibles:
+      <span [class.text-error]="availablePoints < 0"
+            [class.text-success]="availablePoints > 0">
+        {{ availablePoints }}
+      </span> / {{ totalPoints }}
+    </div>
+
+    <form [formGroup]="skillForm" class="grid gap-4">
+      @for (skill of skillCategories; track skill.key) {
+        <div class="flex items-center gap-4">
+          <app-stat-element [statElement]="skill.key"></app-stat-element>
+          <div class="flex items-center gap-2">
+            <button type="button"
+                    class="btn btn-square btn-sm"
+                    (click)="decrementSkill(skill.key)"
+                    [disabled]="skillForm.get(skill.key)?.value === 0">
+              -
+            </button>
+            <span class="w-8 text-center">
+              {{ skillForm.get(skill.key)?.value || 0 }}
+            </span>
+            <button type="button"
+                    class="btn btn-square btn-sm"
+                    (click)="incrementSkill(skill.key)"
+                    [disabled]="availablePoints <= 0">
+              +
+            </button>
+          </div>
+        </div>
+      }
+    </form>
+
+    @if (skillForm.errors?.['exceededPoints']) {
+      <div class="alert alert-error mt-4">
+        Vous avez dépassé le nombre de points disponibles !
+      </div>
+    }
+  </div>
+</div>

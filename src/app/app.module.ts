@@ -31,6 +31,7 @@ import { AutoCropDirective } from './shared/directives/auto-crop.directive';
 import { GenerateCardsComponent } from './pages/admin/generate-cards/generate-cards.component';
 import { EditBgComponent } from './shared/layout/edit-bg/edit-bg.component';
 import { BackgroundCirclesComponent } from './shared/layout/background-circles/background-circles.component';
+import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill-allocation.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { BackgroundCirclesComponent } from './shared/layout/background-circles/b
     AutoCropDirective,
     GenerateCardsComponent,
     EditBgComponent,
-    BackgroundCirclesComponent
+    BackgroundCirclesComponent,
+    SkillAllocationComponent
   ],
   imports: [
     CommonModule,

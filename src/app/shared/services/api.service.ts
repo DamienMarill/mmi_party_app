@@ -16,6 +16,7 @@ export class ApiService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private configService = inject(ConfigService);
+  public isLodded = false;
 
   private authStateSubject = new BehaviorSubject<AuthState>({
     token: null,
@@ -40,7 +41,17 @@ export class ApiService {
     const storedAuth = localStorage.getItem('auth_token');
     if (storedAuth) {
       const auth = JSON.parse(storedAuth);
-      this.refreshToken(auth.refresh_token).subscribe();
+      this.refreshToken(auth.refresh_token).subscribe(
+        () => {
+          this.isLodded = true
+        },
+        error => {
+          this.isLodded = true;
+          console.error('Error refreshing token', error)
+        }
+      );
+    }else{
+      this.isLodded = true;
     }
   }
 

@@ -3,3 +3,9 @@
   <router-outlet/>
 </div>
 <app-navbar></app-navbar>
+@if (!this.apiService.isLodded) {
+  <div class="bg-neutral loding-screen absolute top-0 left-4 w-screen h-screen flex justify-center items-center">
+    <img src="/favicon.png">
+  </div>
+}
+
