@@ -13,7 +13,7 @@
 
   </div>
   <h2 class="text-center">{{ cardVersion?.card_template?.name }}</h2>
-  <h3><fa-icon class="mr-2" [icon]="fa.faLayerGroup"></fa-icon>
+  <h3 class="text-center"><fa-icon class="mr-2" [icon]="fa.faLayerGroup"></fa-icon>
     @if (cardVersion?.card_template?.type === CardType.Student){
       MMI{{cardVersion?.card_template?.level}}
     } @else if (cardVersion?.card_template?.type === CardType.Staff){

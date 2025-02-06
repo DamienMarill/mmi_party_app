@@ -31,7 +31,7 @@ export class SettingsComponent {
         background: this.background
       };
 
-      this.apiService.request('PUT', '/mmii/parts', shape).subscribe(() => {
+      this.apiService.request('PUT', '/mmii/parts', req).subscribe(() => {
 
       });
     }
