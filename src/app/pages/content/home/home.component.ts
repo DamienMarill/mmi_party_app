@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import { User } from '../../../shared/interfaces/user';
 import {AssetsService} from '../../../shared/services/assets.service';
+import {LootService} from '../../../shared/services/loot.service';
 
 @Component({
   selector: 'app-home',
@@ -12,17 +13,13 @@ import {AssetsService} from '../../../shared/services/assets.service';
 })
 export class HomeComponent implements OnInit{
   user?: User;
-  lootavailable?: boolean;
 
   constructor(
     private apiService: ApiService,
-    public assetsService: AssetsService
+    public assetsService: AssetsService,
+    public lootService: LootService
   ) {
-    this.apiService.request<any>('GET','/me/loot/availability')
-      .subscribe((data) => {
-        console.log(data);
-        this.lootavailable = data.available;
-      });
+
   }
 
   ngOnInit(): void {
