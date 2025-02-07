@@ -15,6 +15,7 @@ import {SettingsComponent} from './pages/content/settings/settings.component';
 import {GenerateCardsComponent} from './pages/admin/generate-cards/generate-cards.component';
 import {TradeComponent} from './pages/content/trade/trade.component';
 import {FightComponent} from './pages/content/fight/fight.component';
+import {lootAvailableGuard} from './shared/guards/loot-available.guard';
 
 const routes: Routes = [
   {
@@ -69,7 +70,8 @@ const routes: Routes = [
       {
         path: 'loot',
         component: LootComponent,
-        data: {nav: {showNav: false, showBack: false}}
+        data: {nav: {showNav: false, showBack: false}},
+        canActivate: [lootAvailableGuard]
       },
       {
         path: 'trade',
