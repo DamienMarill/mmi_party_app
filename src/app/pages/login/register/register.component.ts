@@ -55,11 +55,12 @@ export class RegisterComponent implements OnInit{
       // Step 4
       background: [''],
       skills: this.fb.group({
-        development: [0],
-        design: [0],
+        audiovisuel: [0],
         communication: [0],
-        audiovisual: [0],
-        threeD: [0]
+        dev: [0],
+        graphisme: [0],
+        trois_d: [0],
+        ux_ui: [0],
       })
     }, {
       validators: [this.passwordMatchValidator]

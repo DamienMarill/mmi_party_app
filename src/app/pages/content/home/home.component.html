@@ -28,7 +28,13 @@
             <div>
               <img src="/assets/kdo2.png" class="rounded-md w-52 saturate-50">
             </div>
-            <h3 class="text-center">Tirage non disponible</h3>
+            <div>
+              <h3 class="text-center">Tirage non disponible</h3>
+              @if (lootService.nextLootTime){
+                <p class="text-center">Prochain tirage disponible à partir de {{ lootService.nextLootTime | date:'HH:mm' }}</p>
+              }
+            </div>
+
           </div>
         }
     </div>

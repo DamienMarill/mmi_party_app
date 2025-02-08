@@ -4,8 +4,9 @@
     @if (cardVersion?.image){
       <img class="rounded-t-2xl" [src]="assetsService.getCardTemplateUrl(cardVersion?.image)" alt="Card image">
     }@else{
-      <div [style.background-image]="'url(\''+assetsService.getBgUrl(cardVersion?.card_template?.mmii?.background)+'\')'" class="bg-cover rounded-t-2xl">
-        <div class="rounded-t-2xl backdrop-blur-sm p-4 pb-0 flex justify-center items-center">
+      <div [style.background-image]="'url(\''+assetsService.getBgUrl(cardVersion?.card_template?.mmii?.background)+'\')'"
+           class="bg-cover rounded-t-2xl aspect-square flex justify-center items-end">
+        <div class="rounded-t-2xl backdrop-blur-sm w-full h-full p-4 pb-0 flex justify-center items-end">
           <app-mmii size="10rem" [mmiiShapes]="cardVersion?.card_template?.mmii?.shape"></app-mmii>
         </div>
       </div>

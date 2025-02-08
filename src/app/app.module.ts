@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +16,7 @@ import { LootComponent } from './pages/content/loot/loot.component';
 import { InputComponent } from './shared/layout/card/input/input.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import {provideHttpClient} from '@angular/common/http';
 import { NavbarComponent } from './shared/layout/navbar/navbar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -34,6 +34,8 @@ import { BackgroundCirclesComponent } from './shared/layout/background-circles/b
 import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill-allocation.component';
 import { TradeComponent } from './pages/content/trade/trade.component';
 import { FightComponent } from './pages/content/fight/fight.component';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ import { FightComponent } from './pages/content/fight/fight.component';
     BrowserAnimationsModule
   ],
   providers: [
-    provideHttpClient()
+    provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'fr-FR' }
   ],
   bootstrap: [AppComponent]
 })

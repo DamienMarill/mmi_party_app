@@ -86,7 +86,7 @@ export class InputComponent implements ControlValueAccessor, Validator, OnChange
   fieldRequiredText: string = 'Field required';
 
   private onChange: (value: any) => void = () => {};
-  private onTouched: () => void = () => {};
+  public onTouched: () => void = () => {};
 
   constructor() {
     this.fieldRequiredText = "Champ obligatoire";
@@ -166,7 +166,7 @@ export class InputComponent implements ControlValueAccessor, Validator, OnChange
       this.onChange(value);
     }
 
-    this.onTouched();
+    // this.onTouched();
   }
 
   checkboxTypeSanityse() {
@@ -177,6 +177,10 @@ export class InputComponent implements ControlValueAccessor, Validator, OnChange
   }
 
   displayError(): boolean {
-    return <boolean>(this.control?.errors && (this.control?.touched || this.control?.errors['serverError']));
+    return <boolean>(
+      this.control?.errors &&
+      !this.control.pristine &&
+      ((this.control?.dirty && this.control?.touched) || this.control?.errors['serverError'])
+    );
   }
 }

@@ -36,7 +36,7 @@
           [type]="type"
           [placeholder]="placeholder"
           (focus)="inputFocus = true"
-          (focusout)="inputFocus = false; onInput(inputRef.value)"
+          (focusout)="inputFocus = false; onTouched(); onInput(inputRef.value)"
           [(ngModel)]="value"
           class="grow"
         />

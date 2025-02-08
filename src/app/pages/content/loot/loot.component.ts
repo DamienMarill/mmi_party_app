@@ -3,6 +3,7 @@ import {ApiService} from '../../../shared/services/api.service';
 import {Lootbox} from '../../../shared/interfaces/lootbox';
 import {Router} from '@angular/router';
 import {ConfettiService} from '../../../shared/services/confetti.service';
+import {LootService} from '../../../shared/services/loot.service';
 
 @Component({
   selector: 'app-loot',
@@ -21,10 +22,13 @@ export class LootComponent {
     constructor(
       private apiService: ApiService,
       private router: Router,
-      private confettiService: ConfettiService
+      private confettiService: ConfettiService,
+      private lootService: LootService
     ) {
       this.apiService.request<Lootbox>('GET', '/me/loot')
         .subscribe((response) => {
+          lootService.updateLootAvailability();
+
           for (let i = 0; i < response.cards.length; i++) {
             this.showOrbe.push(false);
           }
