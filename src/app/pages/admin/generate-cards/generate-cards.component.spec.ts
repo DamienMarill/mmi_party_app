@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { GenerateCardsComponent } from './generate-cards.component';
+import { ClipboardService } from '../../../shared/services/clipboard.service';
+import { createMockClipboardService } from '../../../shared/testing/test-helpers';
 
 describe('GenerateCardsComponent', () => {
   let component: GenerateCardsComponent;
@@ -8,9 +11,12 @@ describe('GenerateCardsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GenerateCardsComponent]
-    })
-    .compileComponents();
+      declarations: [GenerateCardsComponent],
+      providers: [
+        { provide: ClipboardService, useValue: createMockClipboardService() }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GenerateCardsComponent);
     component = fixture.componentInstance;
@@ -19,5 +25,13 @@ describe('GenerateCardsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have empty name by default', () => {
+    expect(component.name).toBe('');
+  });
+
+  it('should have empty background by default', () => {
+    expect(component.background).toBe('');
   });
 });

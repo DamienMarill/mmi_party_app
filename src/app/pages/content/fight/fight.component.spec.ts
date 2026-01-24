@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { FightComponent } from './fight.component';
 
@@ -8,9 +9,9 @@ describe('FightComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FightComponent]
-    })
-    .compileComponents();
+      declarations: [FightComponent],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FightComponent);
     component = fixture.componentInstance;

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(npm test:*)",
+      "Bash(npx ng test:*)"
+    ]
+  }
+}
