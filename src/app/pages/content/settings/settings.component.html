@@ -1,6 +1,45 @@
 <div class="grid gap-4">
-  <app-mmii-editor [(mmiiShape)]="mmiiShape" (mmiiShapeChange)="changeMMiiShape($event)"></app-mmii-editor>
-  <app-edit-bg [(background)]="background" (backgroundChange)="changeBackground($event)"></app-edit-bg>
+  <div class="flex items-center gap-4 mb-2">
+    <button class="btn btn-ghost btn-circle" (click)="goBack()">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+    </button>
+    <h1 class="text-xl font-bold">Paramètres</h1>
+  </div>
+
+  <!-- Notifications -->
+  @if (notificationService.isSupported) {
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h3 class="card-title text-base">Notifications</h3>
+        
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <fa-icon [icon]="faBell" class="text-xl text-primary"></fa-icon>
+            <div>
+              <p class="font-medium">Alertes Boosters</p>
+              <p class="text-sm opacity-70">Recevoir une notification quand un booster est disponible</p>
+            </div>
+          </div>
+          
+          <input type="checkbox" 
+                 class="toggle toggle-primary"
+                 [checked]="notificationService.isSubscribed$ | async"
+                 [disabled]="isLoadingNotif"
+                 (change)="toggleNotifications()" />
+        </div>
+        
+        @if (notificationService.permission === 'denied') {
+          <div class="alert alert-warning mt-4 text-sm py-2">
+            <span>Notifications bloquées par le navigateur. Veuillez les activer dans les paramètres du site.</span>
+          </div>
+        }
+        
+
+      </div>
+    </div>
+  } @else {
+    <div class="alert alert-warning">
+       Notifications non supportées sur votre appareil
+    </div>
+  }
 </div>
-
-

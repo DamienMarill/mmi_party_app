@@ -35,7 +35,9 @@ import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill
 import { TradeComponent } from './pages/content/trade/trade.component';
 import { FightComponent } from './pages/content/fight/fight.component';
 import localeFr from '@angular/common/locales/fr';
-registerLocaleData(localeFr);
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { CustomizeComponent } from './pages/content/customize/customize.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,8 @@ registerLocaleData(localeFr);
     BackgroundCirclesComponent,
     SkillAllocationComponent,
     TradeComponent,
-    FightComponent
+    FightComponent,
+    CustomizeComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +77,13 @@ registerLocaleData(localeFr);
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: true, // Should be environment.production ideally
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     provideHttpClient(),

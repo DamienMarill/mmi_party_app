@@ -16,6 +16,7 @@ import {GenerateCardsComponent} from './pages/admin/generate-cards/generate-card
 import {TradeComponent} from './pages/content/trade/trade.component';
 import {FightComponent} from './pages/content/fight/fight.component';
 import {lootAvailableGuard} from './shared/guards/loot-available.guard';
+import {CustomizeComponent} from './pages/content/customize/customize.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,11 @@ const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
+        data: {nav: {showNav: false, showBack: true}},
+      },
+      {
+        path: 'customize',
+        component: CustomizeComponent,
         data: {nav: {showNav: false, showBack: true}},
       },
       {
