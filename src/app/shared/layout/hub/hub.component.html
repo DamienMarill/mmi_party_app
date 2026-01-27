@@ -1,0 +1,69 @@
+<div class="hub-container">
+  <!-- Erreur globale -->
+  <div *ngIf="error" class="alert alert-error mb-4">
+    <span>{{ error }}</span>
+    <button class="btn btn-ghost btn-sm" (click)="error = null">✕</button>
+  </div>
+
+  <!-- Invitation envoyée en attente -->
+  <div *ngIf="sentInvitation" class="card bg-warning/20 border border-warning mb-4">
+    <div class="card-body p-4">
+      <h3 class="card-title text-warning">
+        <span class="loading loading-spinner loading-sm mr-2"></span>
+        En attente de réponse...
+      </h3>
+      <p>
+        Invitation envoyée à <strong>{{ sentInvitation.receiver?.name }}</strong>
+      </p>
+      <div class="flex items-center gap-2 mt-2">
+        <progress
+          class="progress progress-warning w-full"
+          [value]="getRemainingTime(sentInvitation.expires_at)"
+          max="60"
+        ></progress>
+        <span class="text-sm">{{ getRemainingTime(sentInvitation.expires_at) }}s</span>
+      </div>
+      <div class="card-actions justify-end mt-3">
+        <button class="btn btn-outline btn-sm" (click)="cancelSentInvitation()">
+          Annuler
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invitations reçues -->
+  <div *ngIf="receivedInvitations.length > 0" class="mb-6">
+    <h3 class="font-bold text-lg mb-3">
+      🎯 Invitations reçues ({{ receivedInvitations.length }})
+    </h3>
+    <div class="space-y-3">
+      <app-invitation-card
+        *ngFor="let invitation of receivedInvitations"
+        [invitation]="invitation"
+        (accept)="acceptInvitation(invitation)"
+        (decline)="declineInvitation(invitation)"
+      ></app-invitation-card>
+    </div>
+  </div>
+
+  <!-- Liste des joueurs en ligne -->
+  <div>
+    <h3 class="font-bold text-lg mb-3">
+      🟢 Joueurs en ligne ({{ onlinePlayers.length }})
+    </h3>
+
+    <div *ngIf="onlinePlayers.length === 0" class="text-center py-8 text-base-content/60">
+      <p>Aucun autre joueur connecté</p>
+      <p class="text-sm mt-1">Patiente un peu, d'autres joueurs vont arriver !</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <app-player-list-item
+        *ngFor="let player of onlinePlayers"
+        [player]="player"
+        [canInvite]="!sentInvitation && !isLoading"
+        (invite)="invitePlayer(player)"
+      ></app-player-list-item>
+    </div>
+  </div>
+</div>

@@ -38,6 +38,9 @@ import localeFr from '@angular/common/locales/fr';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CustomizeComponent } from './pages/content/customize/customize.component';
+import { HubComponent } from './shared/layout/hub/hub.component';
+import { InvitationCardComponent } from './shared/layout/hub/invitation-card.component';
+import { PlayerListItemComponent } from './shared/layout/hub/player-list-item.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +71,10 @@ import { CustomizeComponent } from './pages/content/customize/customize.componen
     SkillAllocationComponent,
     TradeComponent,
     FightComponent,
-    CustomizeComponent
+    CustomizeComponent,
+    HubComponent,
+    InvitationCardComponent,
+    PlayerListItemComponent
   ],
   imports: [
     CommonModule,

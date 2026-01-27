@@ -1,12 +1,86 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { EchoService } from '../../../shared/services/echo.service';
+import { HubService } from '../../../shared/services/hub.service';
+import { ApiService } from '../../../shared/services/api.service';
+import { HubRoom } from '../../../shared/interfaces/hub';
+import { Subject, takeUntil, filter, first } from 'rxjs';
 
 @Component({
   selector: 'app-trade',
   standalone: false,
-  
   templateUrl: './trade.component.html',
   styleUrl: './trade.component.scss'
 })
-export class TradeComponent {
+export class TradeComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private echoService = inject(EchoService);
+  private hubService = inject(HubService);
+  private apiService = inject(ApiService);
+  private destroy$ = new Subject<void>();
 
+  currentUserId: string | null = null;
+  isConnected = false;
+  isLoading = true;
+
+  ngOnInit(): void {
+    // Récupérer l'utilisateur actuel via l'observable user$
+    this.apiService.user$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(user => !!user),
+        first()
+      )
+      .subscribe({
+        next: (user) => {
+          if (user) {
+            this.currentUserId = user.id;
+            this.isLoading = false;
+            
+            // Se connecter à Echo avec le token depuis authState$
+            this.apiService.authState$
+              .pipe(first())
+              .subscribe(authState => {
+                if (authState.token) {
+                  this.echoService.connect(authState.token);
+                  this.hubService.subscribeToUserChannel(user.id);
+                }
+              });
+          }
+        },
+        error: () => {
+          this.isLoading = false;
+          this.router.navigate(['/login']);
+        }
+      });
+
+    // Si pas d'utilisateur après un délai, recharger
+    setTimeout(() => {
+      if (this.isLoading && !this.currentUserId) {
+        this.isLoading = false;
+        // L'utilisateur n'est pas connecté
+        this.router.navigate(['/login']);
+      }
+    }, 3000);
+
+    // Surveiller la connexion
+    this.echoService.isConnected$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((connected) => {
+        this.isConnected = connected;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.hubService.leaveHub();
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onRoomCreated(room: HubRoom): void {
+    // Rediriger vers la page d'échange avec l'ID de la room
+    console.log('Room created:', room);
+    // TODO: Implémenter la navigation vers l'échange réel
+    // this.router.navigate(['/content/trade', room.id]);
+  }
 }
