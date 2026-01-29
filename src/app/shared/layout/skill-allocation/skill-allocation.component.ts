@@ -68,8 +68,7 @@ export class SkillAllocationComponent implements OnInit {
     const usedPoints = Object.values(this.skillForm.value as Record<keyof CardStats, number>)
       .reduce((sum, current) => sum + current, 0);
     this.availablePoints = this.totalPoints - usedPoints;
-
-    this.skillForm.updateValueAndValidity();
+    // Note: Don't call updateValueAndValidity here - it triggers valueChanges and causes infinite loop
   }
 
   private totalPointsValidator() {

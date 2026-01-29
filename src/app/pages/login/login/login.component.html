@@ -1,49 +1,55 @@
-   <!-- Login Form -->
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
-    <app-input
-      label="Email"
-      type="email"
-      [required]="true"
-      formControlName="email"
-      [errorMessage]="loginForm.get('email')?.errors?.['serverError'] ||
-                     (loginForm.get('email')?.errors?.['email'] ? 'Email invalide' : '') ||
-                     (loginForm.get('email')?.errors?.['required'] ? 'Email requis' : '')"
-    ></app-input>
+<!-- Moodle OAuth Button -->
+<div class="flex flex-col gap-4">
+  <button type="button"
+          class="btn btn-primary btn-lg w-full"
+          (click)="loginWithMoodle()">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+    </svg>
+    Se connecter via Moodle
+  </button>
 
-    <app-input
-      label="Mot de passe"
-      type="password"
-      [required]="true"
-      formControlName="password"
-      [errorMessage]="loginForm.get('password')?.errors?.['serverError'] ||
-                     (loginForm.get('password')?.errors?.['minlength'] ? 'Minimum 8 caractères' : '') ||
-                     (loginForm.get('password')?.errors?.['required'] ? 'Mot de passe requis' : '')"
-    ></app-input>
-
-    <!-- Submit Button -->
-    <button type="submit"
-            class="btn btn-primary w-full mt-4"
-            [disabled]="loginForm.invalid || loginForm.pending">
-      <span *ngIf="!loginForm.pending">Se connecter</span>
-      <span *ngIf="loginForm.pending" class="loading loading-spinner loading-sm"></span>
-    </button>
-
-    <!-- Form Error -->
-    <div *ngIf="loginForm.errors?.['serverError']"
-         class="alert"
-         [ngClass]="{'alert-error': loginForm.errors?.['serverError']?.status === 'error',
-                    'alert-success': loginForm.errors?.['serverError']?.status === 'success'}">
-      {{ loginForm.errors?.['serverError']?.message }}
-    </div>
-  </form>
-
-  <!-- Links -->
-  <div class="flex flex-col gap-2 mt-6 text-center">
-    <a routerLink="/login/forgot-password" class="link link-primary">
-      Mot de passe oublié ?
-    </a>
-    <div class="divider">OU</div>
-    <a routerLink="/login/register" class="link link-primary">
-      Créer un compte
-    </a>
+  <div *ngIf="isLoading" class="flex justify-center">
+    <span class="loading loading-spinner loading-md"></span>
   </div>
+
+  <div *ngIf="errorMessage" class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+</div>
+
+<!-- Classic Login (hidden by default, can be shown for admin/debug) -->
+<details class="collapse mt-8" *ngIf="showClassicLogin">
+  <summary class="collapse-title text-sm text-base-content/50">
+    Connexion classique (debug)
+  </summary>
+  <div class="collapse-content">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+      <app-input
+        label="Email"
+        type="email"
+        [required]="true"
+        formControlName="email"
+        [errorMessage]="loginForm.get('email')?.errors?.['serverError'] ||
+                       (loginForm.get('email')?.errors?.['email'] ? 'Email invalide' : '') ||
+                       (loginForm.get('email')?.errors?.['required'] ? 'Email requis' : '')"
+      ></app-input>
+
+      <app-input
+        label="Mot de passe"
+        type="password"
+        [required]="true"
+        formControlName="password"
+        [errorMessage]="loginForm.get('password')?.errors?.['serverError'] ||
+                       (loginForm.get('password')?.errors?.['minlength'] ? 'Minimum 8 caractères' : '') ||
+                       (loginForm.get('password')?.errors?.['required'] ? 'Mot de passe requis' : '')"
+      ></app-input>
+
+      <button type="submit"
+              class="btn btn-outline btn-sm mt-2"
+              [disabled]="loginForm.invalid || loginForm.pending">
+        Se connecter
+      </button>
+    </form>
+  </div>
+</details>

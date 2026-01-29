@@ -5,12 +5,14 @@ import { LoginComponent as LoginLoginComponent } from './pages/login/login/login
 import {RegisterComponent} from './pages/login/register/register.component';
 import {ForgetPassComponent} from './pages/login/forget-pass/forget-pass.component';
 import {ResetPassComponent} from './pages/login/reset-pass/reset-pass.component';
+import {MoodleSuccessComponent} from './pages/login/moodle-success/moodle-success.component';
+import {MoodleErrorComponent} from './pages/login/moodle-error/moodle-error.component';
 import {ContentComponent} from './pages/content/content.component';
 import {HomeComponent} from './pages/content/home/home.component';
 import {CollectionComponent} from './pages/content/collection/collection.component';
 import {CardComponent} from './pages/content/card/card.component';
 import {LootComponent} from './pages/content/loot/loot.component';
-import {authGuard, publicOnlyGuard} from './shared/guards/auth.guard';
+import {authGuard, publicOnlyGuard, profileCompleteGuard} from './shared/guards/auth.guard';
 import {SettingsComponent} from './pages/content/settings/settings.component';
 import {GenerateCardsComponent} from './pages/admin/generate-cards/generate-cards.component';
 import {TradeComponent} from './pages/content/trade/trade.component';
@@ -44,10 +46,28 @@ const routes: Routes = [
       }
     ]
   },
+  // Moodle OAuth callback routes (outside login component to avoid guards)
+  {
+    path: 'auth/moodle/success',
+    component: MoodleSuccessComponent,
+    data: {nav: {showNav: false, showBack: false}},
+  },
+  {
+    path: 'auth/moodle/error',
+    component: MoodleErrorComponent,
+    data: {nav: {showNav: false, showBack: false}},
+  },
+  // Profile setup route for authenticated users without MMII (bypasses publicOnlyGuard)
+  {
+    path: 'profile-setup',
+    component: RegisterComponent,
+    canActivate: [authGuard],
+    data: {nav: {showNav: false, showBack: false}, isProfileSetup: true},
+  },
   {
     path: '',
     component: ContentComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, profileCompleteGuard],
     data: {nav: {showNav: true, showBack: false}},
     children: [
       {

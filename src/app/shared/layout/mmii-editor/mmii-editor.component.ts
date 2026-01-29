@@ -53,6 +53,7 @@ export class MmiiEditorComponent implements OnChanges {
         this.shapeParts = response;
         if (!this.mmiiShape) {
           this.mmiiShape = this.defaultMmiiShape();
+          this.sendMmii(); // Emit default shape so form is populated
         }
       }
     );
@@ -119,12 +120,14 @@ export class MmiiEditorComponent implements OnChanges {
   updateColor(part: keyof MmiiShape, color: string) {
     if (this.mmiiShape && this.mmiiShape[part] && this.hasColor(this.mmiiShape[part])) {
       this.mmiiShape[part].color = color;
+      this.sendMmii(); // Auto-emit on change
     }
   }
 
   updatePart(part: keyof MmiiShape, img: string) {
     if (this.mmiiShape && this.mmiiShape[part]) {
       this.mmiiShape[part].img = img;
+      this.sendMmii(); // Auto-emit on change
     }
   }
 

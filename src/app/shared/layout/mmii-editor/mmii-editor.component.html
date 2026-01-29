@@ -6,16 +6,16 @@
   </div>
   <div class="mb-4">
     <div role="tablist" class="tabs tabs-lifted">
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'tete'" (click)="selectedPart = 'tete'"><fa-icon [icon]="fa.faHeadSide"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'cheveux'" (click)="selectedPart = 'cheveux'"><fa-icon [icon]="fa.faUserHair"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'yeux'" (click)="selectedPart = 'yeux'"><fa-icon [icon]="fa.faEye"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'sourcils'" (click)="selectedPart = 'sourcils'"><fa-icon [icon]="fa.faFaceRaisedEyebrow"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'bouche'" (click)="selectedPart = 'bouche'"><fa-icon [icon]="fa.faLips"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'nez'" (click)="selectedPart = 'nez'"><fa-icon [icon]="fa.faNose"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'maquillage'" (click)="selectedPart = 'maquillage'"><fa-icon [icon]="fa.faSparkles"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'pilosite'" (click)="selectedPart = 'pilosite'"><fa-icon [icon]="fa.faMustache"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'particularites'" (click)="selectedPart = 'particularites'"><fa-icon [icon]="fa.faGlasses"></fa-icon></button>
-      <button role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'pull'" (click)="selectedPart = 'pull'"><fa-icon [icon]="fa.faShirt"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'tete'" (click)="selectedPart = 'tete'"><fa-icon [icon]="fa.faHeadSide"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'cheveux'" (click)="selectedPart = 'cheveux'"><fa-icon [icon]="fa.faUserHair"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'yeux'" (click)="selectedPart = 'yeux'"><fa-icon [icon]="fa.faEye"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'sourcils'" (click)="selectedPart = 'sourcils'"><fa-icon [icon]="fa.faFaceRaisedEyebrow"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'bouche'" (click)="selectedPart = 'bouche'"><fa-icon [icon]="fa.faLips"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'nez'" (click)="selectedPart = 'nez'"><fa-icon [icon]="fa.faNose"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'maquillage'" (click)="selectedPart = 'maquillage'"><fa-icon [icon]="fa.faSparkles"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'pilosite'" (click)="selectedPart = 'pilosite'"><fa-icon [icon]="fa.faMustache"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'particularites'" (click)="selectedPart = 'particularites'"><fa-icon [icon]="fa.faGlasses"></fa-icon></button>
+      <button type="button" role="tab" class="tab text-xl" [class.tab-active]="selectedPart == 'pull'" (click)="selectedPart = 'pull'"><fa-icon [icon]="fa.faShirt"></fa-icon></button>
     </div>
     <div class="border border-base-300 border-t-0 rounded-b-md p-4 bg-base-100">
       <div class="flex flex-col gap-4">
@@ -23,6 +23,7 @@
           <div class="flex flex-wrap justify-center gap-2">
             @for (color of shapeParts[selectedPart].availableColors; track color){
               <button
+                type="button"
                 class="w-7 h-7 rounded-md border border-base-300"
                 [style.background-color]="color"
                 (click)="updateColor(selectedPart, color)"
@@ -34,6 +35,7 @@
           <div class="flex flex-wrap justify-center gap-2">
             @for (image of shapeParts[selectedPart].files; track image){
               <button
+                type="button"
                 class="rounded-md relative w-20 h-20 bg-base-200/20 p-2 flex items-center justify-center"
                 (click)="updatePart(selectedPart, image)"
               >
@@ -60,5 +62,4 @@
     <button type="button" (click)="sendMmii()" class="btn btn-primary">Valider mon MMII</button>
   </div>
 }
-
 

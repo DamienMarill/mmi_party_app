@@ -120,12 +120,12 @@
         </div>
 
         <!-- Step 3: MMII (commentaire à implémenter) -->
-        <div *ngIf="currentStep === 3" formGroupName="mmiiData">
+        <div *ngIf="currentStep === 3">
           <app-mmii-editor (mmiiShapeChange)="updateMmii($event)"></app-mmii-editor>
         </div>
 
         <!-- Step 4: Background et skills -->
-        <div *ngIf="currentStep === 4 && isStudentEmail(registerForm.get('um_email')?.value)">
+        <div *ngIf="currentStep === 4 && (isMoodleFinalization || isStudentEmail(registerForm.get('um_email')?.value))">
           <div class="mb-4">
             <app-edit-bg (backgroundChange)="updateBg($event)"></app-edit-bg>
           </div>
@@ -175,7 +175,7 @@
             type="submit"
             class="btn btn-primary"
             *ngIf="currentStep === 4"
-            [disabled]="registerForm.invalid"
+            [disabled]="isMoodleFinalization ? !isMoodleFormValid() : registerForm.invalid"
           >
             Finaliser l'inscription
           </button>
