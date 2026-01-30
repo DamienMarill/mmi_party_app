@@ -5,7 +5,7 @@ export interface AuthToken {
   refresh_token: string;
   token_type: string;
   expires_in: number;
-  user: User;
+  user?: User; // Optional for Moodle OAuth callback
 }
 
 export interface AuthState {

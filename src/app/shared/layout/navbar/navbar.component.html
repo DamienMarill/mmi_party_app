@@ -8,19 +8,19 @@
   </div>
 
   <div class="btm-nav static text-xl" [@opacityAnimation]="navConfig.showNav ? 'visible' : 'hidden'">
-    <a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [appSound]="'click'">
       <fa-icon [icon]="iconsInactive.faHouse" class="is-inactive"></fa-icon>
       <fa-icon [icon]="iconsActive.faHouse" class=" is-active"></fa-icon>
     </a>
-    <a [routerLink]="['/collection']" routerLinkActive="active">
+    <a [routerLink]="['/collection']" routerLinkActive="active" [appSound]="'click'">
       <fa-icon [icon]="iconsInactive.faBookSparkles" class=" is-inactive"></fa-icon>
       <fa-icon [icon]="iconsActive.faBookSparkles" class=" is-active"></fa-icon>
     </a>
-    <a [routerLink]="['/trade']" routerLinkActive="active">
+    <a [routerLink]="['/trade']" routerLinkActive="active" [appSound]="'click'">
       <fa-icon [icon]="iconsInactive.faRightLeftLarge" class=" is-inactive"></fa-icon>
       <fa-icon [icon]="iconsActive.faRightLeftLarge" class=" is-active"></fa-icon>
     </a>
-    <a [routerLink]="['/fight']" routerLinkActive="active">
+    <a [routerLink]="['/fight']" routerLinkActive="active" [appSound]="'click'">
       <fa-icon [icon]="iconsInactive.faSwords" class=" is-inactive"></fa-icon>
       <fa-icon [icon]="iconsActive.faSwords" class=" is-active"></fa-icon>
     </a>

@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {ApiService} from '../../../shared/services/api.service';
 import {MmiiShape} from '../../../shared/interfaces/mmii-shape';
 import {SkillAllocationComponent} from '../../../shared/layout/skill-allocation/skill-allocation.component';
@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit{
   isEmailRegistered = false;
   registrationId: string | null = null;
   isFinished = false;
+  isMoodleFinalization = false; // For Moodle OAuth users who need to create MMII
 
   readonly UNIVERSITY_DOMAINS = ['umontpellier.fr', 'etu.umontpellier.fr'];
   @ViewChild('skillAllocation') skillAllocationComponent!: SkillAllocationComponent;
@@ -27,7 +28,8 @@ export class RegisterComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.registerForm = this.fb.group({
       // Step 1
@@ -88,6 +90,26 @@ export class RegisterComponent implements OnInit{
     this.registerForm.get('um_email')?.valueChanges.subscribe(() => {
       this.isCodeVerified = false;
     });
+
+    // Check if this is profile setup mode (from route data or query param)
+    const isProfileSetup = this.route.snapshot.data['isProfileSetup'];
+    const step = this.route.snapshot.queryParamMap.get('step');
+    
+    if (isProfileSetup || step === 'finalize') {
+      this.isMoodleFinalization = true;
+      this.currentStep = 3; // Jump directly to MMII creation
+      this.isEmailRegistered = true; // Mark as already registered
+      this.isCodeVerified = true; // Skip email verification
+      
+      // Get user's groupe from their profile and set it as studentType
+      this.apiService.user$.subscribe(user => {
+        if (user?.groupe) {
+          // Convert groupe (mmi1, mmi2, mmi3) to studentType format (MMI1, MMI2, MMI3)
+          const studentType = user.groupe.toUpperCase();
+          this.registerForm.patchValue({ studentType });
+        }
+      });
+    }
   }
 
   private passwordMatchValidator(g: FormGroup) {
@@ -192,6 +214,27 @@ export class RegisterComponent implements OnInit{
     }
   }
   async onSubmit() {
+    // For Moodle finalization, we use a different endpoint
+    if (this.isMoodleFinalization) {
+      try {
+        await this.apiService.request('POST', '/me/finalize-profile', {
+          mmiiData: this.registerForm.get('mmiiData')?.value,
+          background: this.registerForm.get('background')?.value,
+          skills: this.registerForm.get('skills')?.value
+        }, this.registerForm).toPromise();
+
+        // Refresh user profile so guards have updated data with mmii
+        await this.apiService.refreshUserProfile().toPromise();
+
+        this.finishForm();
+        this.router.navigate(['/home']);
+      } catch (error) {
+        this.registerForm.setErrors({ serverError: error });
+      }
+      return;
+    }
+
+    // Traditional registration flow
     if (this.registerForm.valid && this.registrationId) {
       try {
         await this.apiService.request('PUT', `/auth/register/${this.registrationId}`, {
@@ -262,6 +305,14 @@ export class RegisterComponent implements OnInit{
         universityEmail: true
       };
     };
+  }
+
+
+  // Validation for Moodle finalization - only check mmiiData and skills, not the full form
+  isMoodleFormValid(): boolean {
+    const mmiiData = this.registerForm.get('mmiiData')?.value;
+    // mmiiData should be a non-empty object
+    return mmiiData && typeof mmiiData === 'object' && Object.keys(mmiiData).length > 0;
   }
 
   finishForm() {

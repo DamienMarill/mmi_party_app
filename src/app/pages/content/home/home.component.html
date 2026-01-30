@@ -1,6 +1,11 @@
 <div class="flex flex-col gap-8">
-  <img src="/favicon.png" alt="MMI Party" class="m-auto w-24">
-  <a [routerLink]="['/settings']">
+    <a [routerLink]="['/settings']" class="btn btn-ghost btn-circle absolute top-4 right-4">
+      <fa-icon [icon]="faCog" class="text-3xl"></fa-icon>
+    </a>
+  <div class="flex justify-between items-center w-full px-4">
+    <img src="/favicon.png" alt="MMI Party" class="m-auto w-32">
+  </div>
+  <a [routerLink]="['/customize']">
     <div class="card">
       <div class="card-body flex-row items-center gap-4">
         @if (user?.mmii) {

@@ -8,6 +8,8 @@ import { LoginComponent as LoginLoginComponent } from './pages/login/login/login
 import { RegisterComponent } from './pages/login/register/register.component';
 import { ForgetPassComponent } from './pages/login/forget-pass/forget-pass.component';
 import { ResetPassComponent } from './pages/login/reset-pass/reset-pass.component';
+import { MoodleSuccessComponent } from './pages/login/moodle-success/moodle-success.component';
+import { MoodleErrorComponent } from './pages/login/moodle-error/moodle-error.component';
 import { ContentComponent } from './pages/content/content.component';
 import { HomeComponent } from './pages/content/home/home.component';
 import { CollectionComponent } from './pages/content/collection/collection.component';
@@ -28,6 +30,7 @@ import { StatElementComponent } from './shared/layout/stat-element/stat-element.
 import { OrbeComponent } from './shared/layout/orbe/orbe.component';
 import { SettingsComponent } from './pages/content/settings/settings.component';
 import { AutoCropDirective } from './shared/directives/auto-crop.directive';
+import { SoundDirective } from './shared/directives/sound.directive';
 import { GenerateCardsComponent } from './pages/admin/generate-cards/generate-cards.component';
 import { EditBgComponent } from './shared/layout/edit-bg/edit-bg.component';
 import { BackgroundCirclesComponent } from './shared/layout/background-circles/background-circles.component';
@@ -35,7 +38,12 @@ import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill
 import { TradeComponent } from './pages/content/trade/trade.component';
 import { FightComponent } from './pages/content/fight/fight.component';
 import localeFr from '@angular/common/locales/fr';
-registerLocaleData(localeFr);
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { CustomizeComponent } from './pages/content/customize/customize.component';
+import { HubComponent } from './shared/layout/hub/hub.component';
+import { InvitationCardComponent } from './shared/layout/hub/invitation-card.component';
+import { PlayerListItemComponent } from './shared/layout/hub/player-list-item.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +53,8 @@ registerLocaleData(localeFr);
     RegisterComponent,
     ForgetPassComponent,
     ResetPassComponent,
+    MoodleSuccessComponent,
+    MoodleErrorComponent,
     ContentComponent,
     HomeComponent,
     CollectionComponent,
@@ -65,7 +75,12 @@ registerLocaleData(localeFr);
     BackgroundCirclesComponent,
     SkillAllocationComponent,
     TradeComponent,
-    FightComponent
+    FightComponent,
+    CustomizeComponent,
+    HubComponent,
+    InvitationCardComponent,
+    PlayerListItemComponent,
+    SoundDirective
   ],
   imports: [
     CommonModule,
@@ -74,7 +89,13 @@ registerLocaleData(localeFr);
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: true, // Should be environment.production ideally
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     provideHttpClient(),

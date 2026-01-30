@@ -1,3 +1,54 @@
-<div class="flex justify-center items-center pt-40">
-  <p class="text-3xl">Bientôt disponible</p>
+<div class="h-screen flex items-center justify-center p-4 relative overflow-hidden">
+  <!-- Background animated gradient -->
+  <div class="absolute inset-0 bg-gradient-to-br from-info/10 via-success/10 to-primary/10 animate-pulse"></div>
+  
+  <!-- Decorative elements -->
+  <div class="absolute top-20 left-10 text-6xl opacity-10 animate-bounce">🎴</div>
+  <div class="absolute bottom-20 right-10 text-6xl opacity-10 animate-bounce" style="animation-delay: 0.5s;">💎</div>
+  <div class="absolute top-40 right-20 text-4xl opacity-10" style="animation: float 6s ease-in-out infinite;">🪙</div>
+  <div class="absolute bottom-40 left-20 text-4xl opacity-10" style="animation: float 8s ease-in-out infinite; animation-delay: 1s;">✨</div>
+
+  <!-- Main content -->
+  <div class="relative z-10 max-w-2xl mx-auto text-center">
+    <div class="card bg-base-100 shadow-2xl border border-success/20">
+      <div class="card-body p-8 md:p-12">
+        <!-- Icon with glow effect -->
+        <div class="flex justify-center mb-6">
+          <div class="relative">
+            <div class="absolute inset-0 bg-success rounded-full blur-2xl opacity-50 animate-pulse"></div>
+            <div class="relative text-8xl md:text-9xl">🔄</div>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-2xl font-bold mb-4 text-primary">
+          Zone d'Échange
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-xl text-base-content mb-6">
+          Meika travail au développement de cette fonctionnalité !
+        </p>
+        <img src="assets/meika_work.png" class="w-3/4 m-auto rounded-lg" />
+
+      </div>
+    </div>
+  </div>
 </div>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  @keyframes slideRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+  }
+  
+  @keyframes slideLeft {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-10px); }
+  }
+</style>

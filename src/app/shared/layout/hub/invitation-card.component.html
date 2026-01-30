@@ -1,0 +1,47 @@
+<div class="card bg-success/20 border border-success animate-pulse-slow">
+  <div class="card-body p-4">
+    <div class="flex items-center gap-3">
+      <!-- Avatar MMII -->
+      <div class="avatar placeholder">
+        <div class="bg-neutral text-neutral-content rounded-full w-12">
+          <span *ngIf="!invitation.sender?.mmii">
+            {{ invitation.sender?.name?.charAt(0) || '?' }}
+          </span>
+          <!-- TODO: Ajouter le MMII ici -->
+        </div>
+      </div>
+
+      <!-- Infos -->
+      <div class="flex-1">
+        <h4 class="font-bold">{{ invitation.sender?.name }}</h4>
+        <p class="text-sm text-base-content/70">
+          {{ getHubTypeLabel() }}
+        </p>
+      </div>
+
+      <!-- Countdown -->
+      <div class="radial-progress text-success" 
+           [style.--value]="(remainingTime / 60) * 100" 
+           style="--size:3rem; --thickness: 3px;">
+        {{ remainingTime }}s
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <progress
+      class="progress progress-success w-full mt-3"
+      [value]="remainingTime"
+      max="60"
+    ></progress>
+
+    <!-- Actions -->
+    <div class="card-actions justify-end mt-3 gap-2">
+      <button class="btn btn-ghost btn-sm" (click)="onDecline()">
+        Refuser
+      </button>
+      <button class="btn btn-success btn-sm" (click)="onAccept()">
+        Accepter
+      </button>
+    </div>
+  </div>
+</div>

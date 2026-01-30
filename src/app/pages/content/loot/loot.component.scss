@@ -1,7 +1,35 @@
 .animate_orbes {
   animation: orbes 20s linear infinite;
 }
-.animate_orbe{
+
+// Création de 5 variations d'animation pour chaque orbe
+.animate_orbe_0 {
+  animation: orbes 18s linear infinite reverse;
+  transform-origin: center;
+}
+
+.animate_orbe_1 {
+  animation: orbes 19s linear infinite reverse;
+  transform-origin: center;
+}
+
+.animate_orbe_2 {
+  animation: orbes 20s linear infinite reverse;
+  transform-origin: center;
+}
+
+.animate_orbe_3 {
+  animation: orbes 21s linear infinite reverse;
+  transform-origin: center;
+}
+
+.animate_orbe_4 {
+  animation: orbes 22s linear infinite reverse;
+  transform-origin: center;
+}
+
+// Ancienne classe générique pour rétrocompatibilité
+.animate_orbe {
   animation: orbes 20s linear infinite reverse;
   transform-origin: center;
 }

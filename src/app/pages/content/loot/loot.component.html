@@ -4,7 +4,7 @@
         <div class="absolute inset-0 animate_orbes">
           @for (card of lootbox.cards; track card.id; let i = $index) {
             <div class="absolute w-32 h-32" [ngStyle]="getPosition(i)">
-              <div class="animate_orbe">
+              <div class="animate_orbe_{{i}}">
                 <app-orbe [show]="showOrbe[i]" [rarity]="card.card_version?.rarity"></app-orbe>
               </div>
             </div>

@@ -5,7 +5,7 @@ export interface User {
   name: string;
   email: string;
   um_email: string;
-  group: GroupUser;
+  groupe: GroupUser;
   mmii: Mmii;
   created_at: string;
   updated_at: string;

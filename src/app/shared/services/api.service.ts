@@ -189,6 +189,37 @@ export class ApiService {
     );
   }
 
+  /**
+   * Get Moodle OAuth redirect URL from backend
+   */
+  public getMoodleAuthUrl(): Observable<{ url: string; state: string }> {
+    return this.request<{ url: string; state: string }>(
+      'get',
+      '/auth/moodle/redirect?json=1',
+      undefined,
+      undefined,
+      { skipAuth: true }
+    );
+  }
+
+  /**
+   * Login with tokens from Moodle OAuth callback
+   */
+  public loginWithMoodleTokens(accessToken: string, refreshToken: string): Observable<void> {
+    // Manually update auth state with tokens from Moodle callback
+    const token: AuthToken = {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      expires_in: 3600, // Default JWT TTL
+      token_type: 'bearer'
+    };
+
+    this.updateAuthState(token);
+
+    // Fetch user profile
+    return this.fetchUserProfile();
+  }
+
   public login(credentials: { email: string; password: string }, form?: FormGroup): Observable<void> {
     return this.request<AuthToken>(
       'post',
@@ -242,6 +273,14 @@ export class ApiService {
       }),
       map(() => void 0)
     );
+  }
+
+  /**
+   * Public method to refresh user profile data from server.
+   * Useful after profile updates to ensure guards have fresh data.
+   */
+  public refreshUserProfile(): Observable<void> {
+    return this.fetchUserProfile();
   }
 
   private buildQueryParams(params?: any): string {

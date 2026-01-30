@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import {ApiService} from '../../../shared/services/api.service';
-import {MmiiShape} from '../../../shared/interfaces/mmii-shape';
+import {NotificationService} from '../../../shared/services/notification.service';
+import {firstValueFrom} from 'rxjs';
+import { faBell, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-settings',
@@ -10,36 +12,31 @@ import {MmiiShape} from '../../../shared/interfaces/mmii-shape';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  mmiiShape?: MmiiShape;
-  background?: string;
-
+  isLoadingNotif = false;
+  faBell = faBell;
+  faArrowLeft = faArrowLeft;
+  
   constructor(
-      public apiService: ApiService
+      public notificationService: NotificationService,
+      public location: Location
     ) {
-      this.apiService.user$.subscribe(user => {
-        if (user?.mmii){
-          this.mmiiShape = user.mmii.shape;
-          this.background = user.mmii.background;
+    }
+
+    async toggleNotifications() {
+      this.isLoadingNotif = true;
+      try {
+        const isSubscribed = await firstValueFrom(this.notificationService.isSubscribed$);
+        if (isSubscribed) {
+          await this.notificationService.unsubscribe();
+        } else {
+          await this.notificationService.subscribe();
         }
-      });
-    }
-
-    changeMMiiShape(shape: MmiiShape) {
-      this.mmiiShape = shape;
-      const req = {
-        shape: shape,
-        background: this.background
-      };
-
-      this.apiService.request('PUT', '/mmii/parts', req).subscribe(() => {
-
-      });
-    }
-
-    changeBackground(background: string) {
-      this.background = background;
-      if (this.mmiiShape){
-        this.changeMMiiShape(this.mmiiShape);
+      } finally {
+        this.isLoadingNotif = false;
       }
+    }
+
+    goBack() {
+      this.location.back();
     }
 }
