@@ -4,6 +4,7 @@ import {Lootbox} from '../../../shared/interfaces/lootbox';
 import {Router} from '@angular/router';
 import {ConfettiService} from '../../../shared/services/confetti.service';
 import {LootService} from '../../../shared/services/loot.service';
+import {SoundService} from '../../../shared/services/sound.service';
 
 @Component({
   selector: 'app-loot',
@@ -23,7 +24,8 @@ export class LootComponent {
       private apiService: ApiService,
       private router: Router,
       private confettiService: ConfettiService,
-      private lootService: LootService
+      private lootService: LootService,
+      private soundService: SoundService
     ) {
       this.apiService.request<Lootbox>('GET', '/me/loot')
         .subscribe((response) => {
@@ -37,6 +39,7 @@ export class LootComponent {
           for (let i = 0; i < this.lootbox.cards.length; i++) {
             setTimeout(() => {
               this.showOrbe[i] = true;
+              this.soundService.playSfx('pop');
             }, 300 * i);
           }
           setTimeout(() => {
@@ -69,6 +72,7 @@ export class LootComponent {
           this.router.navigate(['/collection']);
         }, 300);
       }else{
+        this.soundService.playSfx('flip');
         this.fireworks();
       }
     }
@@ -87,6 +91,7 @@ export class LootComponent {
         break;
       case 'epic':
         this.confettiService.stars();
+        this.soundService.playSfx('success');
         break;
     }
 

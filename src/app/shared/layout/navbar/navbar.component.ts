@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit {
     }
 
     goBack(): void {
-  // Récupère l'état de l'historique actuel
+      // Récupère l'état de l'historique actuel
       const state = this.location.getState() as { navigationId: number };
 
   // Supprime l'entrée actuelle de l'historique
