@@ -1,12 +1,28 @@
 import { Injectable } from '@angular/core';
 import {ApiService} from './api.service';
 
+/**
+ * Interface pour la réponse de l'API de disponibilité des lootboxes
+ */
+interface LootAvailabilityResponse {
+  available: boolean;
+  count: number;
+  nextAvailableTime: string; // "18:35"
+  nextAvailableDateTime: string; // ISO 8601 timestamp
+  slotsInfo?: Array<{
+    time: string;
+    timestamp: string;
+    used: boolean;
+  }>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class LootService {
   private lootavailable: boolean = false;
   private nextLoot?: Date;
+  private lootCount: number = 0;
 
   public get isLootAvailable(): boolean {
     return this.lootavailable;
@@ -15,21 +31,20 @@ export class LootService {
     this.lootavailable = value;
   }
 
+  /**
+   * Nombre de boosters disponibles
+   */
+  public get availableLootCount(): number {
+    return this.lootCount;
+  }
+
   public get nextLootTime(): Date {
     return this.nextLoot!;
   }
   private set nextLootTime(value: string) {
-    // Construire la date d'aujourd'hui avec l'heure fournie
-    const [hours, minutes] = value.split(':');
-    const today = new Date();
-
-    // Si l'heure est déjà passée, on passe au lendemain
-    const nextDate = new Date(today.setHours(Number(hours), Number(minutes), 0));
-    if (nextDate < new Date()) {
-      nextDate.setDate(nextDate.getDate() + 1);
-    }
-
-    this.nextLoot = nextDate;
+    // Utiliser directement le timestamp ISO complet depuis l'API
+    // Plus besoin de reconstruire la date manuellement
+    this.nextLoot = new Date(value);
   }
 
   constructor(
@@ -39,11 +54,13 @@ export class LootService {
   }
 
   updateLootAvailability(): void {
-    this.apiService.request<any>('GET','/me/loot/availability')
+    this.apiService.request<LootAvailabilityResponse>('GET','/me/loot/availability')
       .subscribe((data) => {
         console.log(data);
         this.isLootAvailable = data.available;
-        this.nextLootTime = data.nextAvailableTime;
+        this.lootCount = data.count;
+        // Utiliser le timestamp ISO complet au lieu de l'heure seule
+        this.nextLootTime = data.nextAvailableDateTime;
       });
   }
 }
