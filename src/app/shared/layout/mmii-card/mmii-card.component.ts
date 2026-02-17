@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {CardVersion} from '../../interfaces/card-version';
 import {AssetsService} from '../../services/assets.service';
+import { faFaceDisguise } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-mmii-card',
@@ -12,6 +13,10 @@ import {AssetsService} from '../../services/assets.service';
 export class MmiiCardComponent {
   @Input()cardVersion?: CardVersion;
   @Input()count?: number;
+
+  fa = {
+    faFaceDisguise,
+  }
 
   constructor(
     public assetsService: AssetsService
