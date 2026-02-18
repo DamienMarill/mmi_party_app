@@ -19,6 +19,7 @@ import {TradeComponent} from './pages/content/trade/trade.component';
 import {FightComponent} from './pages/content/fight/fight.component';
 import {lootAvailableGuard} from './shared/guards/loot-available.guard';
 import {CustomizeComponent} from './pages/content/customize/customize.component';
+import {MmiiBuilderComponent} from './pages/mmii-builder/mmii-builder.component';
 
 const routes: Routes = [
   {
@@ -110,6 +111,11 @@ const routes: Routes = [
         data: {nav: {showNav: true, showBack: false}}
       }
     ],
+  },
+  {
+    path: 'builder',
+    component: MmiiBuilderComponent,
+    data: {nav: {showNav: false, showBack: false}},
   },
   {
     path: '**',
