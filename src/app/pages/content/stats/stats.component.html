@@ -1,0 +1,150 @@
+<div class="flex flex-col gap-6 pb-8">
+
+  <h1 class="text-2xl font-bold text-center">Statistiques</h1>
+
+  @if (stats) {
+
+    <!-- Section 1: Inscriptions par année -->
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">
+          <fa-icon [icon]="fa.faUsers" class="text-primary"></fa-icon>
+          Inscriptions par année
+        </h2>
+        <div class="flex flex-col gap-4 mt-2">
+          @for (level of stats.registrations; track level.level) {
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-semibold">{{ level.label }}</span>
+                <span class="text-sm opacity-70">
+                  {{ level.registered }} / {{ level.total }}
+                  <span class="ml-1">({{ getPercentage(level.registered, level.total) }}%)</span>
+                </span>
+              </div>
+              <progress
+                class="progress w-full"
+                [ngClass]="{
+                  'progress-primary': level.level === 1,
+                  'progress-secondary': level.level === 2,
+                  'progress-accent': level.level === 3
+                }"
+                [value]="level.registered"
+                [max]="level.total">
+              </progress>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Métriques globales -->
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">
+          <fa-icon [icon]="fa.faChartBar" class="text-accent"></fa-icon>
+          Vue d'ensemble
+        </h2>
+        <div class="stats stats-vertical shadow mt-2">
+          <div class="stat">
+            <div class="stat-figure text-secondary">
+              <fa-icon [icon]="fa.faGift" class="text-2xl"></fa-icon>
+            </div>
+            <div class="stat-title">Boosters ouverts</div>
+            <div class="stat-value text-primary">{{ stats.global.total_boosters }}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-figure text-secondary">
+              <fa-icon [icon]="fa.faLayerGroup" class="text-2xl"></fa-icon>
+            </div>
+            <div class="stat-title">Cartes en circulation</div>
+            <div class="stat-value text-secondary">{{ stats.global.total_cards }}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-figure text-secondary">
+              <fa-icon [icon]="fa.faClock" class="text-2xl"></fa-icon>
+            </div>
+            <div class="stat-title">Joueurs actifs (7j)</div>
+            <div class="stat-value text-accent">{{ stats.global.active_players }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Boosters par jour (7 derniers jours) -->
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">
+          <fa-icon [icon]="fa.faGift" class="text-secondary"></fa-icon>
+          Boosters ouverts (7 derniers jours)
+        </h2>
+        <div class="chart-container mt-4">
+          <div class="chart-bars">
+            @for (day of stats.boosters_per_day; track day.date) {
+              <div class="chart-bar-wrapper">
+                <span class="chart-value">{{ day.count }}</span>
+                <div class="chart-bar"
+                     [style.height.%]="getBarHeight(day.count)">
+                </div>
+                <span class="chart-label">{{ day.label }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Podium collectionneurs -->
+    @if (stats.podium.length > 0) {
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">
+            <fa-icon [icon]="fa.faTrophy" class="text-warning"></fa-icon>
+            Top collectionneurs
+          </h2>
+          <div class="podium flex items-end justify-center gap-2 mt-4">
+            <!-- 2ème place (gauche) -->
+            @if (stats.podium.length >= 2) {
+              <div class="podium-slot flex flex-col items-center">
+                <span class="text-sm font-semibold mb-1 truncate max-w-24 text-center">{{ stats.podium[1].name }}</span>
+                <div class="podium-bar podium-silver flex flex-col items-center justify-start pt-3 rounded-t-lg">
+                  <span class="text-2xl">🥈</span>
+                  <span class="text-xs font-bold mt-1">{{ stats.podium[1].unique_cards }}</span>
+                  <span class="text-[0.6rem] opacity-70">cartes</span>
+                </div>
+              </div>
+            }
+            <!-- 1ère place (centre) -->
+            @if (stats.podium.length >= 1) {
+              <div class="podium-slot flex flex-col items-center">
+                <span class="text-sm font-semibold mb-1 truncate max-w-24 text-center">{{ stats.podium[0].name }}</span>
+                <div class="podium-bar podium-gold flex flex-col items-center justify-start pt-3 rounded-t-lg">
+                  <span class="text-3xl">🥇</span>
+                  <span class="text-sm font-bold mt-1">{{ stats.podium[0].unique_cards }}</span>
+                  <span class="text-xs opacity-70">cartes</span>
+                </div>
+              </div>
+            }
+            <!-- 3ème place (droite) -->
+            @if (stats.podium.length >= 3) {
+              <div class="podium-slot flex flex-col items-center">
+                <span class="text-sm font-semibold mb-1 truncate max-w-24 text-center">{{ stats.podium[2].name }}</span>
+                <div class="podium-bar podium-bronze flex flex-col items-center justify-start pt-3 rounded-t-lg">
+                  <span class="text-2xl">🥉</span>
+                  <span class="text-xs font-bold mt-1">{{ stats.podium[2].unique_cards }}</span>
+                  <span class="text-[0.6rem] opacity-70">cartes</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+  } @else {
+    <!-- Loading state -->
+    <div class="flex justify-center items-center py-12">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  }
+
+</div>

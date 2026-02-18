@@ -1,0 +1,152 @@
+<div class="flex flex-col gap-6 pb-8">
+
+  <h1 class="text-2xl font-bold text-center">Comment ça marche ?</h1>
+
+  <!-- Section 1: Types de cartes -->
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        <fa-icon [icon]="fa.faIdCard" class="text-primary"></fa-icon>
+        Le système de cartes
+      </h2>
+      <p>Chaque personne du département MMI possède sa propre carte à collectionner ! Il existe 3 types :</p>
+      <div class="flex flex-col gap-2 mt-2">
+        <div class="flex items-center gap-3">
+          <span class="badge badge-primary badge-lg">Étudiant</span>
+          <span class="text-sm">Les étudiants MMI de L1, L2 et L3</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="badge badge-accent badge-lg">Personnel</span>
+          <span class="text-sm">Les enseignants et le personnel du département</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="badge badge-neutral badge-lg">Objet</span>
+          <span class="text-sm">Des objets emblématiques du département</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Faux étudiants -->
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        <fa-icon [icon]="fa.faFaceDisguise" class="text-warning"></fa-icon>
+        Les cartes "fictives"
+      </h2>
+      <p>
+        Tu as peut-être remarqué l'icône
+        <fa-icon [icon]="fa.faFaceDisguise" class="text-warning mx-1"></fa-icon>
+        sur certaines cartes. Ce sont des <strong>cartes pré-générées</strong> avec des MMii aléatoires.
+      </p>
+      <p class="mt-2">
+        Elles existent pour garantir un <strong>pool de cartes stable</strong> dès le lancement du jeu,
+        même si tout le monde ne s'est pas encore inscrit.
+      </p>
+      <div class="alert alert-info mt-2">
+        <span>
+          Quand un étudiant s'inscrit, sa carte fictive est automatiquement <strong>remplacée</strong>
+          par sa vraie carte avec son propre MMii. L'icône
+          <fa-icon [icon]="fa.faFaceDisguise" class="mx-1"></fa-icon>
+          disparaît alors !
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Boosters -->
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        <fa-icon [icon]="fa.faGift" class="text-secondary"></fa-icon>
+        Les boosters
+      </h2>
+      <p>Tu reçois des boosters gratuits qui contiennent <strong>5 cartes</strong> chacun.</p>
+      <div class="flex flex-col gap-2 mt-3">
+        <div class="flex items-center gap-3">
+          <fa-icon [icon]="fa.faClock" class="text-lg text-info"></fa-icon>
+          <span>Disponibles à <strong>12h35</strong> et <strong>18h35</strong></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <fa-icon [icon]="fa.faDice" class="text-lg text-info"></fa-icon>
+          <span>Maximum <strong>2 boosters</strong> accumulables</span>
+        </div>
+      </div>
+      <p class="text-sm opacity-70 mt-2">
+        Si tu ne te connectes pas pendant un moment, tu auras au maximum 2 boosters en attente
+        — il n'est pas possible d'en stocker plus.
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 4: Taux de drop -->
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        <fa-icon [icon]="fa.faDice" class="text-accent"></fa-icon>
+        Taux de drop par slot
+      </h2>
+      <p>Chaque booster contient 5 cartes. Chaque position (slot) a ses propres probabilités :</p>
+      <div class="overflow-x-auto mt-3">
+        <table class="table table-zebra table-sm">
+          <thead>
+            <tr>
+              <th>Slot</th>
+              <th>Types possibles</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (slot of dropSlots; track slot.slot) {
+              <tr>
+                <td class="font-bold">{{ slot.slot }}</td>
+                <td>
+                  <div class="flex flex-wrap gap-1">
+                    @for (rate of slot.rates; track rate.type) {
+                      <span class="badge badge-outline badge-sm">{{ rate.type }} — {{ rate.pct }}</span>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm opacity-70 mt-2">
+        Les 2 premières cartes sont toujours des étudiants de L1,
+        tandis que les derniers slots offrent une chance d'obtenir du personnel ou des objets.
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 5: Raretés -->
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        <fa-icon [icon]="fa.faGem" class="text-purple-400"></fa-icon>
+        Les raretés
+      </h2>
+      <p>Chaque carte existe en plusieurs raretés.
+        Plus c'est rare, plus le design de la carte est unique !</p>
+      <div class="flex flex-col gap-3 mt-3">
+        @for (rarity of rarities; track rarity.name) {
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="badge {{ rarity.color }}">
+                <fa-icon [icon]="rarity.icon" class="mr-1"></fa-icon>
+                {{ rarity.name }}
+              </span>
+            </div>
+            <span class="font-mono text-sm">{{ rarity.pct }}</span>
+          </div>
+        }
+      </div>
+      <div class="alert alert-warning mt-3">
+        <span>
+          Les cartes <strong>Légendaires</strong> ne droppent pas dans les boosters classiques —
+          elles sont réservées aux <strong>événements spéciaux</strong> !
+        </span>
+      </div>
+    </div>
+  </div>
+
+</div>
