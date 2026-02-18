@@ -4,6 +4,8 @@ import { User } from '../../../shared/interfaces/user';
 import {AssetsService} from '../../../shared/services/assets.service';
 import {LootService} from '../../../shared/services/loot.service';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,8 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 export class HomeComponent implements OnInit{
   user?: User;
   faCog = faCog;
+  faCircleInfo = faCircleInfo;
+  faChartBar = faChartBar;
 
   constructor(
     private apiService: ApiService,

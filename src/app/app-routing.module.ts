@@ -19,6 +19,9 @@ import {TradeComponent} from './pages/content/trade/trade.component';
 import {FightComponent} from './pages/content/fight/fight.component';
 import {lootAvailableGuard} from './shared/guards/loot-available.guard';
 import {CustomizeComponent} from './pages/content/customize/customize.component';
+import {InfoComponent} from './pages/content/info/info.component';
+import {StatsComponent} from './pages/content/stats/stats.component';
+import {MmiiBuilderComponent} from './pages/mmii-builder/mmii-builder.component';
 
 const routes: Routes = [
   {
@@ -108,8 +111,23 @@ const routes: Routes = [
         path: 'fight',
         component: FightComponent,
         data: {nav: {showNav: true, showBack: false}}
+      },
+      {
+        path: 'info',
+        component: InfoComponent,
+        data: {nav: {showNav: false, showBack: true}}
+      },
+      {
+        path: 'stats',
+        component: StatsComponent,
+        data: {nav: {showNav: false, showBack: true}}
       }
     ],
+  },
+  {
+    path: 'builder',
+    component: MmiiBuilderComponent,
+    data: {nav: {showNav: false, showBack: false}},
   },
   {
     path: '**',

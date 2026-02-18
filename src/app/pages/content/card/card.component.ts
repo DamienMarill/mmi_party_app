@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AssetsService} from '../../../shared/services/assets.service';
 import {faLayerGroup} from '@fortawesome/pro-solid-svg-icons';
 import {CardType} from '../../../shared/interfaces/card-template';
+import { faFaceDisguise, faRobot } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-card',
@@ -17,7 +18,8 @@ export class CardComponent {
   cardVersion?: CardVersion;
 
   fa= {
-    faLayerGroup
+    faLayerGroup,
+    faFaceDisguise,
   }
 
   constructor(
