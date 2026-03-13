@@ -8,4 +8,5 @@ export interface CardInstance {
   lootbox?: Lootbox;
   owner?: User;
   count?: number;
+  is_new?: boolean;
 }
