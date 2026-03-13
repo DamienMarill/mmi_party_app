@@ -10,7 +10,7 @@
         </div>
       </div>
     }
-    @if (cardVersion?.card_template?.base_user === null){
+    @if (cardVersion?.card_template?.base_user === null && cardVersion?.card_template?.type === 'student'){
       <fa-icon class="absolute top-4 left-4 text-4xl opacity-50 text-black" [icon]="fa.faFaceDisguise"></fa-icon>
     }
   </div>
