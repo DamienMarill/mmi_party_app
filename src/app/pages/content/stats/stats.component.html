@@ -4,6 +4,8 @@
 
   @if (stats) {
 
+    <div class="divider">Statistiques collectives</div>
+
     <!-- Section 1: Inscriptions par année -->
     <div class="card">
       <div class="card-body">
@@ -101,42 +103,140 @@
             <fa-icon [icon]="fa.faTrophy" class="text-warning"></fa-icon>
             Top collectionneurs
           </h2>
+
+          <!-- Podium visuel -->
           <div class="podium flex items-end justify-center gap-2 mt-4">
-            <!-- 2ème place (gauche) -->
-            @if (stats.podium.length >= 2) {
+            @for (slot of podiumSlots; track slot.rank) {
               <div class="podium-slot flex flex-col items-center">
-                <span class="text-sm font-semibold mb-1 truncate max-w-24 text-center">{{ stats.podium[1].name }}</span>
-                <div class="podium-bar podium-silver flex flex-col items-center justify-start pt-3 rounded-t-lg">
-                  <span class="text-2xl">🥈</span>
-                  <span class="text-xs font-bold mt-1">{{ stats.podium[1].unique_cards }}</span>
-                  <span class="text-[0.6rem] opacity-70">cartes</span>
-                </div>
-              </div>
-            }
-            <!-- 1ère place (centre) -->
-            @if (stats.podium.length >= 1) {
-              <div class="podium-slot flex flex-col items-center">
-                <span class="text-sm font-semibold mb-1 truncate max-w-24 text-center">{{ stats.podium[0].name }}</span>
-                <div class="podium-bar podium-gold flex flex-col items-center justify-start pt-3 rounded-t-lg">
-                  <span class="text-3xl">🥇</span>
-                  <span class="text-sm font-bold mt-1">{{ stats.podium[0].unique_cards }}</span>
-                  <span class="text-xs opacity-70">cartes</span>
-                </div>
-              </div>
-            }
-            <!-- 3ème place (droite) -->
-            @if (stats.podium.length >= 3) {
-              <div class="podium-slot flex flex-col items-center">
-                <span class="text-sm font-semibold mb-1 truncate max-w-24 text-center">{{ stats.podium[2].name }}</span>
-                <div class="podium-bar podium-bronze flex flex-col items-center justify-start pt-3 rounded-t-lg">
-                  <span class="text-2xl">🥉</span>
-                  <span class="text-xs font-bold mt-1">{{ stats.podium[2].unique_cards }}</span>
-                  <span class="text-[0.6rem] opacity-70">cartes</span>
+
+                <!-- Avatar MMII (uniquement quand pas d'égalité) -->
+                @if (slot.entries.length === 1 && slot.entries[0].mmii) {
+                  <div [style.background-image]="'url(\'' + assetsService.getBgUrl(slot.entries[0].mmii!.background) + '\')'"
+                       class="bg-cover rounded-full mb-1">
+                    <div class="rounded-full overflow-hidden backdrop-blur-sm p-1 pb-0 pt-2 flex justify-center items-center">
+                      <app-mmii size="2.5rem" [mmiiShapes]="slot.entries[0].mmii!.shape"></app-mmii>
+                    </div>
+                  </div>
+                }
+
+                <!-- Noms (avec divider si égalité) -->
+                @for (entry of slot.entries; track entry.name; let last = $last; let first = $first) {
+                  @if (!first) {
+                    <div class="divider my-0 py-0 h-3 opacity-40"></div>
+                  }
+                  <span class="text-sm font-semibold line-clamp-3 text-center leading-tight">{{ entry.name }}</span>
+                }
+
+                <!-- Barre du podium -->
+                <div class="podium-bar flex flex-col items-center justify-start pt-3 rounded-t-lg mt-1"
+                     [ngClass]="slot.style">
+                  <span [class]="slot.rank === 1 ? 'text-3xl' : 'text-2xl'">{{ slot.medal }}</span>
+                  <span class="text-xs font-bold mt-1 flex items-center gap-1">
+                    {{ slot.entries[0].unique_cards }}
+                    <fa-icon [icon]="fa.faCardsBlank" class="text-[0.6rem]"></fa-icon>
+                  </span>
                 </div>
               </div>
             }
           </div>
+
+          <!-- Leaderboard 4ème → 10ème -->
+          @if (leaderboard.length > 0) {
+            <ul class="mt-4 flex flex-col gap-1">
+              @for (entry of leaderboard; track entry.name) {
+                <li class="flex items-center justify-between text-sm py-1 border-b border-base-300 last:border-0">
+                  <span class="opacity-60 w-6 text-right mr-3">{{ entry.rank }}.</span>
+                  <span class="flex-1 font-medium">{{ entry.name }}</span>
+                  <span class="flex items-center gap-1 opacity-70">
+                    {{ entry.unique_cards }}
+                    <fa-icon [icon]="fa.faCardsBlank" class="text-[0.65rem]"></fa-icon>
+                  </span>
+                </li>
+              }
+            </ul>
+          }
+
         </div>
+      </div>
+    }
+
+    <!-- ── Statistiques personnelles ── -->
+    <div class="divider">Mes statistiques</div>
+
+    @if (personalStats) {
+
+      <!-- Cartes uniques + complétion -->
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">
+            <fa-icon [icon]="fa.faCardsBlank" class="text-primary"></fa-icon>
+            Ma collection
+          </h2>
+          <div class="flex justify-between items-center mt-1">
+            <span class="text-3xl font-bold">{{ personalStats.unique_cards }}</span>
+            <span class="text-sm opacity-60">/ {{ personalStats.total_versions }} versions</span>
+          </div>
+          <progress class="progress progress-primary w-full mt-2"
+            [value]="personalStats.unique_cards"
+            [max]="personalStats.total_versions">
+          </progress>
+          <p class="text-right text-sm opacity-60 mt-1">{{ personalStats.completion_rate }}% complété</p>
+          <div class="divider my-1"></div>
+          <div class="flex justify-between text-sm opacity-70">
+            <span>Total cartes (doublons inclus)</span>
+            <span class="font-semibold">{{ personalStats.total_cards }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boosters ouverts + rang -->
+      <div class="stats stats-vertical shadow">
+        <div class="stat">
+          <div class="stat-figure text-secondary">
+            <fa-icon [icon]="fa.faGift" class="text-2xl"></fa-icon>
+          </div>
+          <div class="stat-title">Boosters ouverts</div>
+          <div class="stat-value text-secondary">{{ personalStats.total_boosters }}</div>
+        </div>
+        @if (personalStats.global_rank !== null) {
+          <div class="stat">
+            <div class="stat-figure text-warning">
+              <fa-icon [icon]="fa.faMedal" class="text-2xl"></fa-icon>
+            </div>
+            <div class="stat-title">Classement global</div>
+            <div class="stat-value text-warning">#{{ personalStats.global_rank }}</div>
+          </div>
+        }
+      </div>
+
+      <!-- Répartition par rareté -->
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">
+            <fa-icon [icon]="fa.faLayerGroup" class="text-accent"></fa-icon>
+            Mes raretés
+          </h2>
+          <div class="flex flex-col gap-2 mt-2">
+            @for (rarity of rarityOrder; track rarity) {
+              @if (personalStats.rarity_breakdown[rarity]) {
+                <div class="flex items-center justify-between">
+                  <span class="badge {{ rarityColors[rarity] }} text-xs">
+                    {{ personalStats.rarity_breakdown[rarity].label }}
+                  </span>
+                  <span class="font-semibold text-sm">
+                    {{ personalStats.rarity_breakdown[rarity].count }}
+                    <fa-icon [icon]="fa.faCardsBlank" class="text-[0.6rem] opacity-60"></fa-icon>
+                  </span>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+
+    } @else {
+      <div class="flex justify-center items-center py-8">
+        <span class="loading loading-spinner loading-md text-primary"></span>
       </div>
     }
 
