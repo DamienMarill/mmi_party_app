@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {Lootbox} from '../../../shared/interfaces/lootbox';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ConfettiService} from '../../../shared/services/confetti.service';
 import {LootService} from '../../../shared/services/loot.service';
 import {SoundService} from '../../../shared/services/sound.service';
+import {faStar} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-loot',
@@ -19,10 +20,12 @@ export class LootComponent {
     count= 0;
     showOrbe: boolean[] = [];
     isLoaded = false;
+    faStar = faStar;
 
     constructor(
       private apiService: ApiService,
       private router: Router,
+      private activatedRoute: ActivatedRoute,
       private confettiService: ConfettiService,
       private lootService: LootService,
       private soundService: SoundService
@@ -69,7 +72,12 @@ export class LootComponent {
 
       if (this.count === this.lootbox?.cards.length) {
         setTimeout(() => {
-          this.router.navigate(['/collection']);
+          this.confettiService.stars();
+
+          // Navigate to recap screen and pass the lootbox data in the router state
+          this.router.navigate(['/recap'], {
+            state: { lootbox: this.lootbox }
+          });
         }, 300);
       }else{
         this.soundService.playSfx('flip');
@@ -94,6 +102,5 @@ export class LootComponent {
         this.soundService.playSfx('success');
         break;
     }
-
   }
 }

@@ -22,6 +22,7 @@ import {CustomizeComponent} from './pages/content/customize/customize.component'
 import {InfoComponent} from './pages/content/info/info.component';
 import {StatsComponent} from './pages/content/stats/stats.component';
 import {MmiiBuilderComponent} from './pages/mmii-builder/mmii-builder.component';
+import { RecapComponent } from './pages/content/recap/recap.component';
 
 const routes: Routes = [
   {
@@ -120,6 +121,11 @@ const routes: Routes = [
       {
         path: 'stats',
         component: StatsComponent,
+        data: {nav: {showNav: false, showBack: true}}
+      },
+      {
+        path: 'recap',
+        component: RecapComponent,
         data: {nav: {showNav: false, showBack: true}}
       }
     ],

@@ -47,6 +47,7 @@ import { MmiiBuilderComponent } from './pages/mmii-builder/mmii-builder.componen
 import { HubComponent } from './shared/layout/hub/hub.component';
 import { InvitationCardComponent } from './shared/layout/hub/invitation-card.component';
 import { PlayerListItemComponent } from './shared/layout/hub/player-list-item.component';
+import { RecapComponent } from './pages/content/recap/recap.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { PlayerListItemComponent } from './shared/layout/hub/player-list-item.co
     HubComponent,
     InvitationCardComponent,
     PlayerListItemComponent,
-    SoundDirective
+    SoundDirective,
+    RecapComponent
   ],
   imports: [
     CommonModule,
