@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EchoService } from '../../../shared/services/echo.service';
 import { HubService } from '../../../shared/services/hub.service';
 import { ApiService } from '../../../shared/services/api.service';
+import { ConfettiService } from '../../../shared/services/confetti.service';
 import { HubRoom } from '../../../shared/interfaces/hub';
 import { Subject, takeUntil, filter, first } from 'rxjs';
 
@@ -14,9 +15,11 @@ import { Subject, takeUntil, filter, first } from 'rxjs';
 })
 export class TradeComponent implements OnInit, OnDestroy {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private echoService = inject(EchoService);
   private hubService = inject(HubService);
   private apiService = inject(ApiService);
+  private confettiService = inject(ConfettiService);
   private destroy$ = new Subject<void>();
 
   currentUserId: string | null = null;
@@ -69,6 +72,27 @@ export class TradeComponent implements OnInit, OnDestroy {
       .subscribe((connected) => {
         this.isConnected = connected;
       });
+
+    // Check for query params (success or cancelled)
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      if (params['success']) {
+        // Trigger success animation
+        this.confettiService.fireworks();
+        // Clear params
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { success: null },
+          queryParamsHandling: 'merge'
+        });
+      } else if (params['cancelled']) {
+        alert("L'échange a été annulé.");
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { cancelled: null },
+          queryParamsHandling: 'merge'
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -78,9 +102,7 @@ export class TradeComponent implements OnInit, OnDestroy {
   }
 
   onRoomCreated(room: HubRoom): void {
-    // Rediriger vers la page d'échange avec l'ID de la room
-    console.log('Room created:', room);
-    // TODO: Implémenter la navigation vers l'échange réel
-    // this.router.navigate(['/content/trade', room.id]);
+    console.log('[Trade] Room created:', room);
+    this.router.navigate(['/content/trade', room.id]);
   }
 }

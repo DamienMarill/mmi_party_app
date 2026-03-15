@@ -48,6 +48,8 @@ import { HubComponent } from './shared/layout/hub/hub.component';
 import { InvitationCardComponent } from './shared/layout/hub/invitation-card.component';
 import { PlayerListItemComponent } from './shared/layout/hub/player-list-item.component';
 import { RecapComponent } from './pages/content/recap/recap.component';
+import { TradeSelectionComponent } from './pages/content/trade/trade-selection/trade-selection.component';
+import { TradeRoomComponent } from './pages/content/trade/trade-room/trade-room.component';
 
 @NgModule({
   declarations: [
@@ -87,8 +89,10 @@ import { RecapComponent } from './pages/content/recap/recap.component';
     HubComponent,
     InvitationCardComponent,
     PlayerListItemComponent,
+    TradeSelectionComponent,
     SoundDirective,
-    RecapComponent
+    RecapComponent,
+    TradeRoomComponent
   ],
   imports: [
     CommonModule,

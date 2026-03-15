@@ -1,0 +1,38 @@
+<div class="p-4 bg-base-200 min-h-[calc(100vh-64px)] pb-20">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">Ta Collection</h1>
+    <p class="text-sm opacity-70">
+      @if (requiredRarity) {
+        <span class="text-error font-bold block mb-1">Attention, l'adversaire a verrouillé son choix !</span>
+        Sélectionne une carte de rareté <strong class="badge badge-error ml-1">{{ requiredRarity }}</strong>.
+      } @else {
+        Choisis la carte que tu souhaites proposer à l'échange.
+      }
+    </p>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    @for (card of cards; track card.id) {
+      <div 
+        class="relative transition-transform duration-300"
+        [ngClass]="canSelect(card) ? 'cursor-pointer hover:scale-105' : 'opacity-40 grayscale cursor-not-allowed'"
+        (click)="canSelect(card) ? selectCardForTrade(card) : null">
+        
+        <app-mmii-card [count]="card.count" [cardVersion]="card.card_version"></app-mmii-card>
+        
+        @if (!canSelect(card)) {
+          <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+            <span class="text-4xl">🔒</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  @if (cards.length === 0) {
+    <div class="flex flex-col items-center justify-center py-12 opacity-50">
+      <span class="text-4xl mb-4">📭</span>
+      <p>Ta collection est vide...</p>
+    </div>
+  }
+</div>

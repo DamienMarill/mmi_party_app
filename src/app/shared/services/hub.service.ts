@@ -165,7 +165,7 @@ export class HubService {
     return this.apiService
       .request<{ invitation: HubInvitation }>(
         'post',
-        `hub/${this._currentHubType}/invite/${receiverId}`,
+        `/hub/${this._currentHubType}/invite/${receiverId}`,
         {}
       )
       .pipe(
@@ -189,7 +189,7 @@ export class HubService {
     return this.apiService
       .request<{ room: HubRoom }>(
         'post',
-        `hub/${this._currentHubType}/invitations/${invitationId}/accept`,
+        `/hub/${this._currentHubType}/invitations/${invitationId}/accept`,
         {}
       )
       .pipe(
@@ -215,7 +215,7 @@ export class HubService {
       throw new Error('Hub not joined');
     }
     return this.apiService
-      .request('post', `hub/${this._currentHubType}/invitations/${invitationId}/decline`, {})
+      .request('post', `/hub/${this._currentHubType}/invitations/${invitationId}/decline`, {})
       .pipe(
         tap(() => {
           // Retirer l'invitation de la liste
@@ -238,7 +238,7 @@ export class HubService {
       throw new Error('Hub not joined');
     }
     return this.apiService
-      .request('post', `hub/${this._currentHubType}/invitations/${invitationId}/cancel`, {})
+      .request('post', `/hub/${this._currentHubType}/invitations/${invitationId}/cancel`, {})
       .pipe(
         tap(() => {
           this._sentInvitation.next(null);
@@ -255,7 +255,7 @@ export class HubService {
    */
   private loadReceivedInvitations(type: HubType): void {
     this.apiService
-      .request<{ invitations: HubInvitation[] }>('get', `hub/${type}/invitations`)
+      .request<{ invitations: HubInvitation[] }>('get', `/hub/${type}/invitations`)
       .subscribe({
         next: (response) => {
           this._receivedInvitations.next(response.invitations);
@@ -271,7 +271,7 @@ export class HubService {
    */
   private loadSentInvitation(type: HubType): void {
     this.apiService
-      .request<{ invitation: HubInvitation | null }>('get', `hub/${type}/sent-invitation`)
+      .request<{ invitation: HubInvitation | null }>('get', `/hub/${type}/sent-invitation`)
       .subscribe({
         next: (response) => {
           this._sentInvitation.next(response.invitation);
@@ -286,6 +286,6 @@ export class HubService {
    * Récupère les infos d'une room
    */
   getRoom(roomId: string): Observable<{ room: HubRoom }> {
-    return this.apiService.request<{ room: HubRoom }>('get', `hub/rooms/${roomId}`);
+    return this.apiService.request<{ room: HubRoom }>('get', `/hub/rooms/${roomId}`);
   }
 }

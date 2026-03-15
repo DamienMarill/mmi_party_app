@@ -26,5 +26,6 @@ export interface HubRoom {
   status: RoomStatus;
   player_one: HubPlayer;
   player_two: HubPlayer;
+  metadata?: any;
   created_at?: string;
 }
