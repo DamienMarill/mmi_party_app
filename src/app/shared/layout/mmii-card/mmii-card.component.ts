@@ -22,4 +22,15 @@ export class MmiiCardComponent {
     public assetsService: AssetsService
   ) {
   }
+
+  get typeLabel(): string {
+    const tpl = this.cardVersion?.card_template;
+    if (!tpl) return '';
+    switch (tpl.type) {
+      case 'student': return 'MMI' + tpl.level;
+      case 'staff': return 'Prof';
+      case 'object': return 'Objet';
+      default: return '';
+    }
+  }
 }

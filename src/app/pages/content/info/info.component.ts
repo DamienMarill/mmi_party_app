@@ -37,19 +37,20 @@ export class InfoComponent {
     faArrowLeft
   };
 
-  dropSlots = [
-    { slot: 1, rates: [{ type: 'Étudiant L1', pct: '100%' }] },
-    { slot: 2, rates: [{ type: 'Étudiant L1', pct: '100%' }] },
-    { slot: 3, rates: [{ type: 'Étudiant L2', pct: '70%' }, { type: 'Étudiant L3', pct: '25%' }, { type: 'Personnel', pct: '5%' }] },
-    { slot: 4, rates: [{ type: 'Étudiant L2', pct: '60%' }, { type: 'Étudiant L3', pct: '35%' }, { type: 'Personnel', pct: '5%' }] },
-    { slot: 5, rates: [{ type: 'Personnel', pct: '20%' }, { type: 'Objet', pct: '80%' }] },
-  ];
+  rarities = ['Commune', 'Peu commune', 'Rare', 'Épique'];
 
-  rarities = [
-    { name: 'Commune', pct: '70%', color: 'badge-ghost', icon: this.fa.faCircle },
-    { name: 'Peu commune', pct: '20%', color: 'badge-success', icon: this.fa.faDiamond },
-    { name: 'Rare', pct: '8%', color: 'badge-info', icon: this.fa.faStar },
-    { name: 'Épique', pct: '2%', color: 'badge-secondary', icon: this.fa.faGem },
-    { name: 'Légendaire', pct: '0%', color: 'badge-warning', icon: this.fa.faCrown },
+  rarityColors: Record<string, string> = {
+    'Commune': 'bg-rarity-common',
+    'Peu commune': 'bg-rarity-uncommon',
+    'Rare': 'bg-rarity-rare',
+    'Épique': 'bg-rarity-epic',
+  };
+
+  dropSlots = [
+    { slot: 1, common: '100%', uncommon: '0%', rare: '0%', epic: '0%' },
+    { slot: 2, common: '75%', uncommon: '25%', rare: '0%', epic: '0%' },
+    { slot: 3, common: '50%', uncommon: '40%', rare: '9%', epic: '1%' },
+    { slot: 4, common: '30%', uncommon: '50%', rare: '17%', epic: '3%' },
+    { slot: 5, common: '0%', uncommon: '35%', rare: '60%', epic: '5%' },
   ];
 }

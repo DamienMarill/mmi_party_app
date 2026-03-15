@@ -16,6 +16,11 @@
         <span>{{ count }}</span>
       </div>
     }
+    @if (typeLabel) {
+      <div class="absolute top-0 right-0 px-2 py-0.5 rounded-bl-lg bg-base-100 bg-opacity-80 z-20">
+        <span class="text-xs font-bold">{{ typeLabel }}</span>
+      </div>
+    }
     @if (cardVersion?.card_template?.base_user === null && cardVersion?.card_template?.type === 'student'){
       <fa-icon class="absolute top-2 left-2 text-3xl opacity-50 text-black" [icon]="fa.faFaceDisguise"></fa-icon>
     }
