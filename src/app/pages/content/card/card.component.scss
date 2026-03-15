@@ -1,0 +1,77 @@
+.epic-frame {
+  position: relative;
+  padding: 3px;
+  border-radius: 1rem;
+  overflow: visible;
+  box-shadow:
+    0 0 15px rgba(255, 201, 133, 0.5),
+    0 0 40px rgba(255, 201, 133, 0.3),
+    0 0 80px rgba(255, 215, 0, 0.15);
+  animation: epic-glow 3s ease-in-out infinite alternate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--epic-angle, 0deg),
+      #FFC985,
+      #FFE4B5,
+      #FFC985,
+      #FFD700,
+      #FFC985,
+      #FFE4B5,
+      #FFC985
+    );
+    animation: epic-rotate 4s linear infinite;
+    z-index: -1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--epic-angle, 0deg),
+      transparent,
+      rgba(255, 201, 133, 0.6),
+      transparent,
+      rgba(255, 215, 0, 0.4),
+      transparent,
+      rgba(255, 201, 133, 0.6),
+      transparent
+    );
+    animation: epic-rotate 4s linear infinite;
+    filter: blur(8px);
+    z-index: -2;
+  }
+}
+
+@keyframes epic-glow {
+  from {
+    box-shadow:
+      0 0 15px rgba(255, 201, 133, 0.5),
+      0 0 40px rgba(255, 201, 133, 0.3),
+      0 0 80px rgba(255, 215, 0, 0.15);
+  }
+  to {
+    box-shadow:
+      0 0 20px rgba(255, 201, 133, 0.7),
+      0 0 55px rgba(255, 201, 133, 0.4),
+      0 0 100px rgba(255, 215, 0, 0.25);
+  }
+}
+
+@keyframes epic-rotate {
+  to {
+    --epic-angle: 360deg;
+  }
+}
+
+@property --epic-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}

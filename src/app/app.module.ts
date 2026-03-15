@@ -31,6 +31,7 @@ import { OrbeComponent } from './shared/layout/orbe/orbe.component';
 import { SettingsComponent } from './pages/content/settings/settings.component';
 import { AutoCropDirective } from './shared/directives/auto-crop.directive';
 import { SoundDirective } from './shared/directives/sound.directive';
+import { TiltDirective } from './shared/directives/tilt.directive';
 import { GenerateCardsComponent } from './pages/admin/generate-cards/generate-cards.component';
 import { EditBgComponent } from './shared/layout/edit-bg/edit-bg.component';
 import { BackgroundCirclesComponent } from './shared/layout/background-circles/background-circles.component';
@@ -93,6 +94,7 @@ import { ModalContainerComponent } from './shared/layout/modal-container/modal-c
     PlayerListItemComponent,
     TradeSelectionComponent,
     SoundDirective,
+    TiltDirective,
     RecapComponent,
     TradeRoomComponent,
     ModalContainerComponent
