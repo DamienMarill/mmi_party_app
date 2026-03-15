@@ -38,6 +38,7 @@ import { SkillAllocationComponent } from './shared/layout/skill-allocation/skill
 import { TradeComponent } from './pages/content/trade/trade.component';
 import { FightComponent } from './pages/content/fight/fight.component';
 import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CustomizeComponent } from './pages/content/customize/customize.component';

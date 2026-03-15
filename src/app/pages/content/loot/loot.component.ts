@@ -76,7 +76,8 @@ export class LootComponent {
 
           // Navigate to recap screen and pass the lootbox data in the router state
           this.router.navigate(['/recap'], {
-            state: { lootbox: this.lootbox }
+            state: { lootbox: this.lootbox },
+            replaceUrl: true
           });
         }, 300);
       }else{

@@ -79,73 +79,40 @@
     </div>
   </div>
 
-  <!-- Section 4: Taux de drop -->
+  <!-- Section 4: Taux de drop par rareté -->
   <div class="card">
     <div class="card-body">
       <h2 class="card-title">
         <fa-icon [icon]="fa.faDice" class="text-accent"></fa-icon>
         Taux de drop par slot
       </h2>
-      <p>Chaque booster contient 5 cartes. Chaque position (slot) a ses propres probabilités :</p>
+      <p>Chaque booster contient 5 cartes. Chaque position (slot) a ses propres chances d'obtenir une rareté :</p>
       <div class="overflow-x-auto mt-3">
-        <table class="table table-zebra table-sm">
+        <table class="table table-zebra table-sm text-center">
           <thead>
             <tr>
               <th>Slot</th>
-              <th>Types possibles</th>
+              @for (rarity of rarities; track rarity) {
+                <th><span class="badge {{ rarityColors[rarity] }} badge-sm text-black">{{ rarity }}</span></th>
+              }
             </tr>
           </thead>
           <tbody>
             @for (slot of dropSlots; track slot.slot) {
               <tr>
                 <td class="font-bold">{{ slot.slot }}</td>
-                <td>
-                  <div class="flex flex-wrap gap-1">
-                    @for (rate of slot.rates; track rate.type) {
-                      <span class="badge badge-outline badge-sm">{{ rate.type }} — {{ rate.pct }}</span>
-                    }
-                  </div>
-                </td>
+                <td>{{ slot.common }}</td>
+                <td>{{ slot.uncommon }}</td>
+                <td>{{ slot.rare }}</td>
+                <td>{{ slot.epic }}</td>
               </tr>
             }
           </tbody>
         </table>
       </div>
       <p class="text-sm opacity-70 mt-2">
-        Les 2 premières cartes sont toujours des étudiants de L1,
-        tandis que les derniers slots offrent une chance d'obtenir du personnel ou des objets.
+        Plus le slot est élevé, plus les chances d'obtenir une carte rare ou épique augmentent !
       </p>
-    </div>
-  </div>
-
-  <!-- Section 5: Raretés -->
-  <div class="card">
-    <div class="card-body">
-      <h2 class="card-title">
-        <fa-icon [icon]="fa.faGem" class="text-purple-400"></fa-icon>
-        Les raretés
-      </h2>
-      <p>Chaque carte existe en plusieurs raretés.
-        Plus c'est rare, plus le design de la carte est unique !</p>
-      <div class="flex flex-col gap-3 mt-3">
-        @for (rarity of rarities; track rarity.name) {
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="badge {{ rarity.color }}">
-                <fa-icon [icon]="rarity.icon" class="mr-1"></fa-icon>
-                {{ rarity.name }}
-              </span>
-            </div>
-            <span class="font-mono text-sm">{{ rarity.pct }}</span>
-          </div>
-        }
-      </div>
-      <div class="alert alert-warning mt-3">
-        <span>
-          Les cartes <strong>Légendaires</strong> ne droppent pas dans les boosters classiques —
-          elles sont réservées aux <strong>événements spéciaux</strong> !
-        </span>
-      </div>
     </div>
   </div>
 
