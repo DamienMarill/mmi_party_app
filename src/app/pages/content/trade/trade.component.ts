@@ -5,6 +5,7 @@ import { HubService } from '../../../shared/services/hub.service';
 import { ApiService } from '../../../shared/services/api.service';
 import { ConfettiService } from '../../../shared/services/confetti.service';
 import { HubRoom } from '../../../shared/interfaces/hub';
+import { ModalService } from '../../../shared/services/modal.service';
 import { Subject, takeUntil, filter, first } from 'rxjs';
 
 @Component({
@@ -20,6 +21,7 @@ export class TradeComponent implements OnInit, OnDestroy {
   private hubService = inject(HubService);
   private apiService = inject(ApiService);
   private confettiService = inject(ConfettiService);
+  private modalService = inject(ModalService);
   private destroy$ = new Subject<void>();
 
   currentUserId: string | null = null;
@@ -46,7 +48,16 @@ export class TradeComponent implements OnInit, OnDestroy {
               .subscribe(authState => {
                 if (authState.token) {
                   this.echoService.connect(authState.token);
-                  this.hubService.subscribeToUserChannel(user.id);
+                  // Attendre que la connexion WebSocket soit établie avant de s'abonner
+                  this.echoService.isConnected$
+                    .pipe(
+                      filter(connected => connected),
+                      first(),
+                      takeUntil(this.destroy$)
+                    )
+                    .subscribe(() => {
+                      this.hubService.subscribeToUserChannel(user.id);
+                    });
                 }
               });
           }
@@ -85,7 +96,7 @@ export class TradeComponent implements OnInit, OnDestroy {
           queryParamsHandling: 'merge'
         });
       } else if (params['cancelled']) {
-        alert("L'échange a été annulé.");
+        this.modalService.alert("L'échange a été annulé.", 'Échange annulé');
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { cancelled: null },
@@ -103,6 +114,6 @@ export class TradeComponent implements OnInit, OnDestroy {
 
   onRoomCreated(room: HubRoom): void {
     console.log('[Trade] Room created:', room);
-    this.router.navigate(['/content/trade', room.id]);
+    this.router.navigate(['/trade', room.id]);
   }
 }

@@ -107,6 +107,7 @@ export class HubService {
       this._onlinePlayers.next([]);
       this._receivedInvitations.next([]);
       this._sentInvitation.next(null);
+      this._currentRoom.next(null);
     }
   }
 

@@ -33,22 +33,39 @@ export class TradeService {
 
   private currentRoomId: string | null = null;
 
+  private _opponentLeft = new Subject<void>();
+  public opponentLeft$ = this._opponentLeft.asObservable();
+
   connectToRoom(roomId: string, initialState: TradeState): void {
-    if (this.currentRoomId === roomId) return;
-    
-    this.currentRoomId = roomId;
+    // Toujours mettre à jour le state (peut avoir changé entre-temps)
     this._tradeState.next(initialState);
 
-    const channel = this.echoService.privateChannel(`hub-room.${roomId}`);
+    // Mais ne pas re-souscrire au channel WS si déjà connecté à cette room
+    if (this.currentRoomId === roomId) return;
+
+    this.currentRoomId = roomId;
+
+    // Utiliser un presence channel pour détecter les déconnexions
+    const channel = this.echoService.presenceChannel(`hub-room.${roomId}`);
     if (channel) {
       channel
+        .here(() => {})
+        .joining(() => {})
+        .leaving(() => {
+          this.ngZone.run(() => {
+            this._opponentLeft.next();
+          });
+        })
         .listen('.trade.state.updated', (data: { roomId: string, tradeState: TradeState }) => {
           this.ngZone.run(() => {
             this._tradeState.next(data.tradeState);
           });
         })
-        .listen('.trade.completed', () => {
+        .listen('.trade.completed', (data: { resetState?: TradeState }) => {
           this.ngZone.run(() => {
+            if (data.resetState) {
+              this._tradeState.next(data.resetState);
+            }
             this._tradeCompleted.next();
           });
         })
@@ -71,7 +88,15 @@ export class TradeService {
   }
 
   selectCard(roomId: string, cardInstanceId: string): Observable<{ message: string, state: TradeState }> {
-    return this.apiService.request('post', `trade/${roomId}/select-card`, { card_instance_id: cardInstanceId }).pipe(
+    return this.apiService.request('post', `/trade/${roomId}/select-card`, { card_instance_id: cardInstanceId }).pipe(
+      tap((response: any) => {
+        this._tradeState.next(response.state);
+      })
+    );
+  }
+
+  selectCardByVersion(roomId: string, cardVersionId: string): Observable<{ message: string, state: TradeState }> {
+    return this.apiService.request('post', `/trade/${roomId}/select-card`, { card_version_id: cardVersionId }).pipe(
       tap((response: any) => {
         this._tradeState.next(response.state);
       })
@@ -79,7 +104,15 @@ export class TradeService {
   }
 
   validateSelection(roomId: string): Observable<{ message: string, state: TradeState }> {
-    return this.apiService.request('post', `trade/${roomId}/validate`, {}).pipe(
+    return this.apiService.request('post', `/trade/${roomId}/validate`, {}).pipe(
+      tap((response: any) => {
+        this._tradeState.next(response.state);
+      })
+    );
+  }
+
+  unvalidateSelection(roomId: string): Observable<{ message: string, state: TradeState }> {
+    return this.apiService.request('post', `/trade/${roomId}/unvalidate`, {}).pipe(
       tap((response: any) => {
         this._tradeState.next(response.state);
       })
@@ -87,7 +120,7 @@ export class TradeService {
   }
 
   acceptTrade(roomId: string): Observable<{ message: string, state?: TradeState }> {
-    return this.apiService.request('post', `trade/${roomId}/accept`, {}).pipe(
+    return this.apiService.request('post', `/trade/${roomId}/accept`, {}).pipe(
       tap((response: any) => {
         if (response.state) {
           this._tradeState.next(response.state);
@@ -97,7 +130,7 @@ export class TradeService {
   }
 
   cancelTrade(roomId: string): Observable<any> {
-    return this.apiService.request('post', `trade/${roomId}/cancel`, {});
+    return this.apiService.request('post', `/trade/${roomId}/cancel`, {});
   }
 }
 

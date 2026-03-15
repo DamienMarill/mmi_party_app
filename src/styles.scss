@@ -53,3 +53,7 @@
     @apply pl-4;
   }
 }
+
+.modal .body{
+  @apply bg-base-100/95 mx-8;
+}

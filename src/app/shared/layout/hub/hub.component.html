@@ -1,4 +1,13 @@
 <div class="hub-container">
+  <!-- Échanges restants -->
+  <div *ngIf="hubType === 'trade'" class="flex items-center justify-center gap-2 mb-4">
+    <div *ngFor="let i of [].constructor(tradesLimit); let idx = index"
+      class="w-4 h-4 rounded-full transition-colors"
+      [ngClass]="idx < tradesUsed ? 'bg-base-300' : 'bg-primary'">
+    </div>
+    <span class="text-sm opacity-60 ml-1">{{ tradesLimit - tradesUsed }} échange{{ tradesLimit - tradesUsed > 1 ? 's' : '' }} restant{{ tradesLimit - tradesUsed > 1 ? 's' : '' }}</span>
+  </div>
+
   <!-- Erreur globale -->
   <div *ngIf="error" class="alert alert-error mb-4">
     <span>{{ error }}</span>
@@ -18,10 +27,10 @@
       <div class="flex items-center gap-2 mt-2">
         <progress
           class="progress progress-warning w-full"
-          [value]="getRemainingTime(sentInvitation.expires_at)"
+          [value]="sentInvitationRemaining"
           max="60"
         ></progress>
-        <span class="text-sm">{{ getRemainingTime(sentInvitation.expires_at) }}s</span>
+        <span class="text-sm">{{ sentInvitationRemaining }}s</span>
       </div>
       <div class="card-actions justify-end mt-3">
         <button class="btn btn-outline btn-sm" (click)="cancelSentInvitation()">
