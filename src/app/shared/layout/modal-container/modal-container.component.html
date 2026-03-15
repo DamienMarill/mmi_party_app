@@ -1,0 +1,19 @@
+@if (current) {
+  <div class="modal"
+       [style.opacity]="visible ? 1 : 0"
+       [style.pointer-events]="visible ? 'auto' : 'none'">
+    <div class="backdrop" (click)="onBackdrop()"></div>
+    <div class="body">
+      <div class="card-body">
+        <h3 class="card-title">{{ current.title }}</h3>
+        <p class="py-2 whitespace-pre-line">{{ current.message }}</p>
+        <div class="flex justify-end gap-2 mt-4">
+          @if (current.type === 'confirm') {
+            <button class="btn btn-secondary btn-sm" (click)="onCancel()">{{ current.cancelText }}</button>
+          }
+          <button class="btn btn-primary btn-sm" (click)="onConfirm()">{{ current.confirmText }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

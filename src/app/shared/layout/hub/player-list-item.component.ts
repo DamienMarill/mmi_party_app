@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { HubPlayer } from '../../interfaces/hub';
+import { AssetsService } from '../../services/assets.service';
 
 @Component({
   selector: 'app-player-list-item',
@@ -8,6 +9,8 @@ import { HubPlayer } from '../../interfaces/hub';
   styleUrls: ['./player-list-item.component.scss'],
 })
 export class PlayerListItemComponent {
+  assetsService = inject(AssetsService);
+
   @Input() player!: HubPlayer;
   @Input() canInvite = true;
   @Output() invite = new EventEmitter<void>();

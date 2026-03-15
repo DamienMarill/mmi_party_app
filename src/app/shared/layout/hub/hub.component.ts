@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, inject } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { HubService } from '../../services/hub.service';
+import { ApiService } from '../../services/api.service';
 import { HubPlayer, HubInvitation, HubRoom, HubType } from '../../interfaces/hub';
 
 @Component({
@@ -15,6 +16,7 @@ export class HubComponent implements OnInit, OnDestroy {
   @Output() roomCreated = new EventEmitter<HubRoom>();
 
   private hubService = inject(HubService);
+  private apiService = inject(ApiService);
   private destroy$ = new Subject<void>();
 
   onlinePlayers: HubPlayer[] = [];
@@ -23,6 +25,12 @@ export class HubComponent implements OnInit, OnDestroy {
   currentRoom: HubRoom | null = null;
   isLoading = false;
   error: string | null = null;
+
+  tradesUsed = 0;
+  tradesLimit = 5;
+
+  sentInvitationRemaining = 0;
+  private timerInterval: any = null;
 
   ngOnInit(): void {
     // Rejoindre le hub
@@ -46,6 +54,11 @@ export class HubComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((invitation) => {
         this.sentInvitation = invitation;
+        this.clearTimer();
+        if (invitation) {
+          this.updateSentTimer();
+          this.timerInterval = setInterval(() => this.updateSentTimer(), 1000);
+        }
       });
 
     this.hubService.currentRoom$
@@ -61,15 +74,46 @@ export class HubComponent implements OnInit, OnDestroy {
     this.hubService.invitationReceived$
       .pipe(takeUntil(this.destroy$))
       .subscribe((invitation) => {
-        // TODO: Ajouter un son ou une notification visuelle
         console.log('New invitation received:', invitation);
+      });
+
+    // Charger le compteur d'échanges si hub de type trade
+    if (this.hubType === 'trade') {
+      this.loadDailyCount();
+    }
+  }
+
+  loadDailyCount(): void {
+    this.apiService.request<{ used: number, limit: number }>('get', '/trade/daily-count')
+      .subscribe({
+        next: (res) => {
+          this.tradesUsed = res.used;
+          this.tradesLimit = res.limit;
+        }
       });
   }
 
   ngOnDestroy(): void {
+    this.clearTimer();
     this.hubService.leaveHub();
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private clearTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  private updateSentTimer(): void {
+    if (this.sentInvitation) {
+      this.sentInvitationRemaining = this.getRemainingTime(this.sentInvitation.expires_at);
+      if (this.sentInvitationRemaining <= 0) {
+        this.clearTimer();
+      }
+    }
   }
 
   /**

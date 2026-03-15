@@ -48,7 +48,16 @@ export class FightComponent implements OnInit, OnDestroy {
               .subscribe(authState => {
                 if (authState.token) {
                   this.echoService.connect(authState.token);
-                  this.hubService.subscribeToUserChannel(user.id);
+                  // Attendre que la connexion WebSocket soit établie avant de s'abonner
+                  this.echoService.isConnected$
+                    .pipe(
+                      filter(connected => connected),
+                      first(),
+                      takeUntil(this.destroy$)
+                    )
+                    .subscribe(() => {
+                      this.hubService.subscribeToUserChannel(user.id);
+                    });
                 }
               });
           }

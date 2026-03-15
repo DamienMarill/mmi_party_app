@@ -50,6 +50,7 @@ import { PlayerListItemComponent } from './shared/layout/hub/player-list-item.co
 import { RecapComponent } from './pages/content/recap/recap.component';
 import { TradeSelectionComponent } from './pages/content/trade/trade-selection/trade-selection.component';
 import { TradeRoomComponent } from './pages/content/trade/trade-room/trade-room.component';
+import { ModalContainerComponent } from './shared/layout/modal-container/modal-container.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { TradeRoomComponent } from './pages/content/trade/trade-room/trade-room.
     TradeSelectionComponent,
     SoundDirective,
     RecapComponent,
-    TradeRoomComponent
+    TradeRoomComponent,
+    ModalContainerComponent
   ],
   imports: [
     CommonModule,

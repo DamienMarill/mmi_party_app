@@ -2,8 +2,10 @@ import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TradeService, TradeState } from '../../../../shared/services/trade.service';
 import { HubService } from '../../../../shared/services/hub.service';
+import { ConfettiService } from '../../../../shared/services/confetti.service';
 import { HubRoom } from '../../../../shared/interfaces/hub';
 import { ApiService } from '../../../../shared/services/api.service';
+import { ModalService } from '../../../../shared/services/modal.service';
 import { Subject, takeUntil, filter } from 'rxjs';
 
 @Component({
@@ -18,6 +20,8 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
   private tradeService = inject(TradeService);
   private hubService = inject(HubService);
   private apiService = inject(ApiService);
+  private confettiService = inject(ConfettiService);
+  private modalService = inject(ModalService);
   private destroy$ = new Subject<void>();
 
   roomId!: string;
@@ -27,9 +31,12 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
 
   isPlayerOne = false;
   opponentName = '';
-  
+
   isLoading = true;
   showCancelModal = false;
+
+  tradesUsed = 0;
+  tradesLimit = 5;
 
   ngOnInit(): void {
     this.apiService.user$.pipe(
@@ -44,7 +51,7 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
           this.roomId = id;
           this.loadRoom();
         } else {
-          this.router.navigate(['/content/trade']);
+          this.router.navigate(['/trade']);
         }
       });
     });
@@ -54,18 +61,28 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
     });
 
     this.tradeService.tradeCompleted$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.router.navigate(['/content/trade'], { queryParams: { success: true } });
+      this.confettiService.fireworks();
+      this.loadDailyCount();
     });
 
     this.tradeService.tradeCancelled$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.router.navigate(['/content/trade'], { queryParams: { cancelled: true } });
+      this.tradeService.disconnectFromRoom();
+      this.router.navigate(['/trade'], { queryParams: { cancelled: true } });
+    });
+
+    this.tradeService.opponentLeft$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.tradeService.cancelTrade(this.roomId).subscribe(() => {
+        this.tradeService.disconnectFromRoom();
+        this.router.navigate(['/trade'], { queryParams: { cancelled: true } });
+      });
     });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.tradeService.disconnectFromRoom();
+    // Ne pas déconnecter ici : la navigation vers /cartes détruirait le WS.
+    // La déconnexion se fait au cancelTrade ou quand on quitte /trade complètement.
   }
 
   loadRoom(): void {
@@ -75,8 +92,8 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
         this.isPlayerOne = this.currentUserId === this.room.player_one.id;
         this.opponentName = this.isPlayerOne ? this.room.player_two.name : this.room.player_one.name;
 
-        // Initialize state mapping
-        const initialState: TradeState = this.room.metadata || {
+        // Utiliser le trade_state hydraté retourné par l'API
+        const initialState: TradeState = (res.room as any).trade_state || {
           player_one_card_id: null,
           player_two_card_id: null,
           player_one_validated: false,
@@ -86,12 +103,23 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
         };
 
         this.tradeService.connectToRoom(this.roomId, initialState);
+        this.loadDailyCount();
         this.isLoading = false;
       },
       error: () => {
-        this.router.navigate(['/content/trade']);
+        this.router.navigate(['/trade']);
       }
     });
+  }
+
+  loadDailyCount(): void {
+    this.apiService.request<{ used: number, limit: number }>('get', '/trade/daily-count')
+      .subscribe({
+        next: (res) => {
+          this.tradesUsed = res.used;
+          this.tradesLimit = res.limit;
+        }
+      });
   }
 
   get myCard(): any {
@@ -130,7 +158,7 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
 
   goToCollection(): void {
     if (!this.myValidated) {
-      this.router.navigate([`/content/trade/${this.roomId}/cartes`]);
+      this.router.navigate([`/trade/${this.roomId}/cartes`]);
     }
   }
 
@@ -138,7 +166,16 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
     if (this.myCard && !this.myValidated) {
       this.tradeService.validateSelection(this.roomId).subscribe({
         next: () => {},
-        error: (err) => alert(err.error.error || "Erreur de validation")
+        error: (err) => this.modalService.alert(err.error.error || "Erreur de validation", 'Erreur')
+      });
+    }
+  }
+
+  unvalidateChoice(): void {
+    if (this.myValidated) {
+      this.tradeService.unvalidateSelection(this.roomId).subscribe({
+        next: () => {},
+        error: (err) => this.modalService.alert(err.error.error || "Erreur de déverrouillage", 'Erreur')
       });
     }
   }
@@ -146,19 +183,26 @@ export class TradeRoomComponent implements OnInit, OnDestroy {
   acceptTrade(): void {
     if (this.bothValidated && !this.myAccepted) {
       this.tradeService.acceptTrade(this.roomId).subscribe({
-        next: () => {},
-        error: (err) => alert(err.error.error || "Erreur d'acceptation")
+        next: (response: any) => {
+          if (response.state && !response.state.player_one_card_id) {
+            this.confettiService.fireworks();
+            this.loadDailyCount();
+          }
+        },
+        error: (err) => this.modalService.alert(err.error.error || "Erreur d'acceptation", 'Erreur')
       });
     }
   }
 
-  cancelTrade(): void {
-    if(confirm('Êtes-vous sûr de vouloir annuler l\'échange ?')) {
+  async cancelTrade(): Promise<void> {
+    const confirmed = await this.modalService.confirm('Êtes-vous sûr de vouloir annuler l\'échange ?');
+    if (confirmed) {
       this.tradeService.cancelTrade(this.roomId).subscribe({
         next: () => {
-          this.router.navigate(['/content/trade']);
+          this.tradeService.disconnectFromRoom();
+          this.router.navigate(['/trade']);
         },
-        error: (err) => alert(err.error.error || "Erreur d'annulation")
+        error: (err) => this.modalService.alert(err.error.error || "Erreur d'annulation", 'Erreur')
       });
     }
   }

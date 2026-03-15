@@ -3,6 +3,7 @@ import { ApiService } from '../../../../shared/services/api.service';
 import { CardInstance } from '../../../../shared/interfaces/card-instance';
 import { TradeService, TradeState } from '../../../../shared/services/trade.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalService } from '../../../../shared/services/modal.service';
 import { Subject, takeUntil, filter } from 'rxjs';
 
 @Component({
@@ -16,6 +17,7 @@ export class TradeSelectionComponent implements OnInit, OnDestroy {
   private tradeService = inject(TradeService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private modalService = inject(ModalService);
   private destroy$ = new Subject<void>();
 
   cards: CardInstance[] = [];
@@ -37,7 +39,7 @@ export class TradeSelectionComponent implements OnInit, OnDestroy {
         this.roomId = id;
         this.loadCollection();
       } else {
-        this.router.navigate(['/content/trade']);
+        this.router.navigate(['/trade']);
       }
     });
 
@@ -88,16 +90,18 @@ export class TradeSelectionComponent implements OnInit, OnDestroy {
 
   selectCardForTrade(card: CardInstance): void {
     if (!this.canSelect(card)) {
-      alert(`Vous devez sélectionner une carte de rareté ${this.requiredRarity} pour cet échange.`);
+      this.modalService.alert(
+        `Vous devez sélectionner une carte de rareté ${this.requiredRarity} pour cet échange.`,
+        'Rareté incompatible'
+      );
       return;
     }
 
-    // Le backend attend le card_instance_id. Le /collection renvoie l'ID d'une instance.
-    this.tradeService.selectCard(this.roomId, card.id).subscribe({
+    this.tradeService.selectCardByVersion(this.roomId, card.card_version!.id).subscribe({
       next: () => {
-        this.router.navigate([`/content/trade/${this.roomId}`]);
+        this.router.navigate([`/trade/${this.roomId}`]);
       },
-      error: (err) => alert(err.error?.error || 'Erreur lors de la sélection')
+      error: (err) => this.modalService.alert(err.error?.error || 'Erreur lors de la sélection', 'Erreur')
     });
   }
 }
