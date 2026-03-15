@@ -6,6 +6,6 @@ export const environment = {
     host: 'back.mmiparty.fr',
     port: 443,
     scheme: 'https',
-    key: 'mmi-party-reverb-key',
+    key: 'mmi-party-key',
   },
 };

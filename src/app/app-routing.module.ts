@@ -20,9 +20,11 @@ import {FightComponent} from './pages/content/fight/fight.component';
 import {lootAvailableGuard} from './shared/guards/loot-available.guard';
 import {CustomizeComponent} from './pages/content/customize/customize.component';
 import {InfoComponent} from './pages/content/info/info.component';
-import {StatsComponent} from './pages/content/stats/stats.component';
-import {MmiiBuilderComponent} from './pages/mmii-builder/mmii-builder.component';
+import { StatsComponent } from './pages/content/stats/stats.component';
+import { MmiiBuilderComponent } from './pages/mmii-builder/mmii-builder.component';
 import { RecapComponent } from './pages/content/recap/recap.component';
+import { TradeRoomComponent } from './pages/content/trade/trade-room/trade-room.component';
+import { TradeSelectionComponent } from './pages/content/trade/trade-selection/trade-selection.component';
 
 const routes: Routes = [
   {
@@ -107,6 +109,16 @@ const routes: Routes = [
         path: 'trade',
         component: TradeComponent,
         data: {nav: {showNav: true, showBack: false}}
+      },
+      {
+        path: 'trade/:roomId',
+        component: TradeRoomComponent,
+        data: {nav: {showNav: false, showBack: false}}
+      },
+      {
+        path: 'trade/:roomId/cartes',
+        component: TradeSelectionComponent,
+        data: {nav: {showNav: false, showBack: true}}
       },
       {
         path: 'fight',

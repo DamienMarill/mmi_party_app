@@ -1,0 +1,122 @@
+@if (isLoading) {
+<div class="h-screen flex items-center justify-center">
+  <span class="loading loading-spinner text-primary loading-lg"></span>
+</div>
+} @else {
+<div class="h-[calc(100vh-64px)] overflow-y-auto flex flex-col items-center p-4 bg-base-200">
+  
+  <div class="w-full max-w-lg flex flex-col items-center gap-6 relative pb-20">
+    <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
+       Échange avec {{ opponentName }}
+    </h1>
+
+    <!-- 1. Carte de l'adversaire (Haut) -->
+    <div class="w-full card bg-base-100 shadow-xl border-t-4" [ngClass]="{'border-success': opponentValidated, 'border-base-300': !opponentValidated}">
+      <div class="card-body p-4 flex flex-col items-center">
+        <h2 class="card-title text-sm opacity-70 mb-2">Carte de {{ opponentName }}</h2>
+        
+        <div class="relative w-48 transition-transform duration-500" [ngClass]="{'scale-105': opponentValidated}">
+          <!-- Status icon -->
+          @if (opponentValidated) {
+            <div class="absolute -top-3 -right-3 z-50">
+              <span class="badge badge-success shadow-sm font-bold text-white p-3 gap-1">
+                ✔ Validé
+              </span>
+            </div>
+          }
+          @if (opponentAccepted) {
+            <div class="absolute inset-0 bg-success/20 rounded-2xl z-40 flex items-center justify-center backdrop-blur-sm">
+                <span class="text-2xl font-bold text-success drop-shadow-md bg-base-100 px-4 py-2 rounded-full">ACCEPTÉ</span>
+            </div>
+          }
+
+          @if (opponentCard) {
+            <app-mmii-card [cardVersion]="opponentCard.card_version"></app-mmii-card>
+          } @else {
+            <!-- Placeholder "En attente" -->
+            <div class="w-full aspect-[2/3] rounded-2xl border-2 border-dashed border-base-300 bg-base-200 flex flex-col items-center justify-center opacity-70">
+              <span class="loading loading-dots loading-md mb-2"></span>
+              <p class="text-xs text-center px-4">Choix en cours...</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Icône d'échange centrale -->
+    <div class="text-4xl text-primary animate-pulse z-10 shrink-0">
+      🔁
+    </div>
+
+    <!-- 2. Ma Carte (Bas) -->
+    <div class="w-full card bg-base-100 shadow-xl border-b-4" [ngClass]="{'border-success': myValidated, 'border-base-300': !myValidated}">
+      <div class="card-body p-4 flex flex-col items-center">
+        <h2 class="card-title text-sm opacity-70 mb-2">Ta carte</h2>
+        
+        <div class="relative w-48 cursor-pointer transition-transform duration-300 hover:scale-105" 
+             (click)="goToCollection()">
+          
+          @if (myValidated) {
+            <div class="absolute -top-3 -left-3 z-50">
+              <span class="badge badge-success shadow-sm font-bold text-white p-3 gap-1">
+                ✔ Validé
+              </span>
+            </div>
+          }
+          @if (myAccepted) {
+            <div class="absolute inset-0 bg-success/20 rounded-2xl z-40 flex items-center justify-center backdrop-blur-sm">
+                <span class="text-2xl font-bold text-success drop-shadow-md bg-base-100 px-4 py-2 rounded-full">ACCEPTÉ</span>
+            </div>
+          }
+
+          @if (myCard) {
+            <app-mmii-card [cardVersion]="myCard.card_version"></app-mmii-card>
+            @if (!myValidated) {
+              <div class="absolute inset-0 bg-black/40 rounded-2xl opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity z-20">
+                <button class="btn btn-primary btn-sm rounded-full">Changer</button>
+              </div>
+            }
+          } @else {
+            <!-- Placeholder vide avec bouton + -->
+            <div class="w-full aspect-[2/3] rounded-2xl border-4 border-dashed border-primary/50 bg-primary/10 flex flex-col items-center justify-center hover:bg-primary/20 transition-colors">
+              <div class="text-5xl text-primary mb-2">+</div>
+              <p class="text-sm font-bold text-primary">Choisir une carte</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="w-full mt-2">
+      @if (bothValidated) {
+        <button 
+          class="btn btn-success w-full btn-lg shadow-lg" 
+          (click)="acceptTrade()" 
+          [disabled]="myAccepted">
+          @if (myAccepted) {
+            En attente de l'adversaire...
+          } @else {
+            Accepter l'échange !
+          }
+        </button>
+      } @else {
+        <button 
+          class="btn btn-primary w-full btn-lg shadow-lg" 
+          (click)="validateChoice()" 
+          [disabled]="!myCard || myValidated">
+          @if (myValidated) {
+            ✔ Choix verrouillé
+          } @else {
+            Verrouiller ma carte
+          }
+        </button>
+      }
+    </div>
+
+    <button class="btn btn-ghost btn-outline btn-error w-full mt-4" (click)="cancelTrade()">
+      Annuler l'échange
+    </button>
+  </div>
+</div>
+}

@@ -6,6 +6,6 @@ export const environment = {
     host: 'localhost',
     port: 8080,
     scheme: 'http',
-    key: 'mmi-party-reverb-key',
+    key: 'mmi-party-key',
   },
 };
