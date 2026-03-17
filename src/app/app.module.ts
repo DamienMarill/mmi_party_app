@@ -100,7 +100,6 @@ import { EventModalComponent } from './shared/layout/event-modal/event-modal.com
     TradeRoomComponent,
     ModalContainerComponent,
     EventModalComponent
->>>>>>> develop
   ],
   imports: [
     CommonModule,
