@@ -53,6 +53,7 @@ import { RecapComponent } from './pages/content/recap/recap.component';
 import { TradeSelectionComponent } from './pages/content/trade/trade-selection/trade-selection.component';
 import { TradeRoomComponent } from './pages/content/trade/trade-room/trade-room.component';
 import { ModalContainerComponent } from './shared/layout/modal-container/modal-container.component';
+import { EventModalComponent } from './shared/layout/event-modal/event-modal.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,9 @@ import { ModalContainerComponent } from './shared/layout/modal-container/modal-c
     TiltDirective,
     RecapComponent,
     TradeRoomComponent,
-    ModalContainerComponent
+    ModalContainerComponent,
+    EventModalComponent
+>>>>>>> develop
   ],
   imports: [
     CommonModule,
