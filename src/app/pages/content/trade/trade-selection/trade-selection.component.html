@@ -11,6 +11,14 @@
     </p>
   </div>
 
+  <!-- Légende du badge cadeau -->
+  @if (opponentCardVersionIds.size > 0) {
+    <div class="alert alert-info mb-4 py-2 px-3 text-sm">
+      <fa-icon [icon]="fa.faGift" class="text-base shrink-0"></fa-icon>
+      <span>Votre partenaire ne possède pas cette carte</span>
+    </div>
+  }
+
   <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
     @for (card of cards; track card.id) {
       <div
@@ -19,6 +27,13 @@
         (click)="canSelect(card) ? selectCardForTrade(card) : null">
 
         <app-mmii-card [count]="card.count" [cardVersion]="card.card_version"></app-mmii-card>
+
+        <!-- Badge "cadeau" : l'adversaire n'a pas cette carte -->
+        @if (isNewForOpponent(card) && canSelect(card)) {
+          <div class="absolute -top-2 -right-2 z-20 w-7 h-7 rounded-full bg-info flex items-center justify-center shadow-md ring-2 ring-base-100">
+            <fa-icon [icon]="fa.faGift" class="text-white text-xs"></fa-icon>
+          </div>
+        }
 
         @if (!canSelect(card)) {
           <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
