@@ -5,6 +5,7 @@ import { TradeService, TradeState } from '../../../../shared/services/trade.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '../../../../shared/services/modal.service';
 import { Subject, takeUntil, filter } from 'rxjs';
+import { faGift } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-trade-selection',
@@ -24,6 +25,9 @@ export class TradeSelectionComponent implements OnInit, OnDestroy {
   roomId!: string;
   requiredRarity: string | null = null;
   currentUserId!: string;
+  opponentCardVersionIds: Set<string> = new Set();
+
+  fa = { faGift };
 
   ngOnInit(): void {
     this.apiService.user$.pipe(
@@ -61,6 +65,20 @@ export class TradeSelectionComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.cards = response;
       });
+
+    // Charger la collection de l'adversaire pour identifier les cartes qu'il n'a pas
+    this.apiService.request<{ card_version_ids: string[] }>('GET', `/hub/rooms/${this.roomId}/opponent-collection`)
+      .subscribe((response) => {
+        this.opponentCardVersionIds = new Set(response.card_version_ids);
+      });
+  }
+
+  /**
+   * Retourne true si l'adversaire ne possède pas cette version de carte
+   */
+  isNewForOpponent(card: CardInstance): boolean {
+    if (!card.card_version?.id) return false;
+    return !this.opponentCardVersionIds.has(card.card_version.id);
   }
 
   determineRequiredRarity(state: TradeState): void {

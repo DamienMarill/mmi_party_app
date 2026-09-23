@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AssetsService} from '../../../shared/services/assets.service';
 import {faLayerGroup} from '@fortawesome/pro-solid-svg-icons';
 import {CardType} from '../../../shared/interfaces/card-template';
+import {GroupUser} from '../../../shared/interfaces/user';
 import { faFaceDisguise, faRobot } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
@@ -37,4 +38,5 @@ export class CardComponent {
   }
 
   protected readonly CardType = CardType;
+  protected readonly GroupUser = GroupUser;
 }

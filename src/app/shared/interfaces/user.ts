@@ -17,5 +17,6 @@ export enum GroupUser {
   Mmi1 = 'mmi1',
   Mmi2 = 'mmi2',
   Mmi3 = 'mmi3',
+  Alumni = 'alumni',
   Misc = 'misc',
 }
