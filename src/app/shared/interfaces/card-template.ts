@@ -1,5 +1,5 @@
 import {CardVersion} from './card-version';
-import {User} from './user';
+import {User, GroupUser} from './user';
 import {Mmii} from './mmii';
 import {CardStats} from './card-stats';
 
@@ -13,6 +13,9 @@ export interface CardTemplate {
   shape: boolean[][];
   stats: CardStats;
   type: CardType;
+  is_lootable?: boolean;
+  /** Promo réelle du propriétaire (null si carte fictive). Sert à afficher "Alumni". */
+  owner_promo?: GroupUser | null;
 }
 
 export enum CardType {
