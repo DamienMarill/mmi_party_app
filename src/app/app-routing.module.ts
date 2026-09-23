@@ -79,25 +79,27 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        data: { breadcrumb: 'Accueil' },
       },
       {
         path: 'settings',
         component: SettingsComponent,
-        data: {nav: {showNav: false, showBack: true}},
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Paramètres'},
       },
       {
         path: 'customize',
         component: CustomizeComponent,
-        data: {nav: {showNav: false, showBack: true}},
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Personnalisation'},
       },
       {
         path: 'collection',
         component: CollectionComponent,
+        data: { breadcrumb: 'Collection' },
       },
       {
         path: 'card/:cardId',
         component: CardComponent,
-        data: {nav: {showNav: false, showBack: true}}
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Carte'}
       },
       {
         path: 'loot',
@@ -108,37 +110,37 @@ const routes: Routes = [
       {
         path: 'trade',
         component: TradeComponent,
-        data: {nav: {showNav: true, showBack: false}}
+        data: {nav: {showNav: true, showBack: false}, breadcrumb: 'Échange'}
       },
       {
         path: 'trade/:roomId',
         component: TradeRoomComponent,
-        data: {nav: {showNav: false, showBack: false}}
+        data: {nav: {showNav: false, showBack: false}, breadcrumb: 'Salle d\'échange'}
       },
       {
         path: 'trade/:roomId/cartes',
         component: TradeSelectionComponent,
-        data: {nav: {showNav: false, showBack: true}}
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Sélection'}
       },
       {
         path: 'fight',
         component: FightComponent,
-        data: {nav: {showNav: true, showBack: false}}
+        data: {nav: {showNav: true, showBack: false}, breadcrumb: 'Combat'}
       },
       {
         path: 'info',
         component: InfoComponent,
-        data: {nav: {showNav: false, showBack: true}}
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Infos'}
       },
       {
         path: 'stats',
         component: StatsComponent,
-        data: {nav: {showNav: false, showBack: true}}
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Statistiques'}
       },
       {
         path: 'recap',
         component: RecapComponent,
-        data: {nav: {showNav: false, showBack: true}}
+        data: {nav: {showNav: false, showBack: true}, breadcrumb: 'Récapitulatif'}
       }
     ],
   },

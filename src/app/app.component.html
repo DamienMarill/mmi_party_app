@@ -1,13 +1,15 @@
 <app-background-circles></app-background-circles>
-<div class="px-5 py-8 pb-32 relative">
-  <router-outlet/>
+<div class="px-5 py-8 pb-32 lg:pb-8 lg:pl-24 lg:pr-8 relative">
+  <div class="w-full max-w-5xl mx-auto">
+    <app-breadcrumb></app-breadcrumb>
+    <router-outlet/>
+  </div>
 </div>
 <app-navbar></app-navbar>
 <app-modal-container></app-modal-container>
 <app-event-modal></app-event-modal>
 @if (!this.apiService.isLodded) {
-  <div class="bg-neutral loding-screen absolute top-0 left-4 w-screen h-screen flex justify-center items-center">
+  <div class="bg-neutral loding-screen absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50">
     <img src="/favicon.png">
   </div>
 }
-

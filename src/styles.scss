@@ -56,4 +56,8 @@
 
 .modal .body{
   @apply bg-base-100/95 mx-8;
+
+  @media (min-width: 1024px) {
+    @apply mx-auto max-w-lg;
+  }
 }

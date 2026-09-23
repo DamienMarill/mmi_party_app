@@ -54,6 +54,7 @@ import { TradeSelectionComponent } from './pages/content/trade/trade-selection/t
 import { TradeRoomComponent } from './pages/content/trade/trade-room/trade-room.component';
 import { ModalContainerComponent } from './shared/layout/modal-container/modal-container.component';
 import { EventModalComponent } from './shared/layout/event-modal/event-modal.component';
+import { BreadcrumbComponent } from './shared/layout/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { EventModalComponent } from './shared/layout/event-modal/event-modal.com
     RecapComponent,
     TradeRoomComponent,
     ModalContainerComponent,
-    EventModalComponent
+    EventModalComponent,
+    BreadcrumbComponent
   ],
   imports: [
     CommonModule,

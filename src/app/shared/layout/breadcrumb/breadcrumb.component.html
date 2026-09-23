@@ -1,0 +1,17 @@
+@if (breadcrumbs.length > 0) {
+  <nav class="hidden lg:flex items-center gap-1.5 text-sm mb-6 px-1">
+    <a routerLink="/home" class="text-base-content/50 hover:text-primary transition-colors">
+      <fa-icon [icon]="icons.faHouse" class="text-xs"></fa-icon>
+    </a>
+    @for (crumb of breadcrumbs; track crumb.url; let last = $last) {
+      <fa-icon [icon]="icons.faChevronRight" class="text-[0.5rem] text-base-content/30"></fa-icon>
+      @if (last) {
+        <span class="font-medium text-base-content/80">{{ crumb.label }}</span>
+      } @else {
+        <a [routerLink]="crumb.url" class="text-base-content/50 hover:text-primary transition-colors">
+          {{ crumb.label }}
+        </a>
+      }
+    }
+  </nav>
+}

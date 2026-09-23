@@ -1,5 +1,5 @@
 @if (cardVersion) {
-<div class="flex flex-col gap-6 items-center">
+<div class="flex flex-col gap-6 items-center max-w-md mx-auto">
   <div class="px-8 pt-4">
     <div appTilt [tiltMax]="20" [tiltSpeed]="300" [tiltGlare]="true" [tiltMaxGlare]="0.25" [tiltHolographic]="cardVersion.rarity === 'epic'" [tiltScale]="1.03" class="card relative overflow-hidden w-full border-4 border-collapse shadow-sm" [ngClass]="['border-rarity-'+cardVersion.rarity, 'shadow-rarity-'+cardVersion.rarity, cardVersion.rarity === 'epic' ? 'epic-frame' : '']">
       <div class="absolute w-full h-full rounded-2xl shadow-inner z-10" [ngClass]="['shadow-rarity-'+cardVersion?.rarity]"></div>

@@ -1,0 +1,76 @@
+// ========================
+// Sidebar Desktop Styles
+// ========================
+.sidebar-desktop {
+  background: oklch(var(--b1) / 0.95);
+  border-right: 1px solid oklch(var(--bc) / 0.08);
+  backdrop-filter: blur(12px);
+
+  // Contrasting darker background
+  background: linear-gradient(
+    180deg,
+    oklch(var(--n) / 0.98) 0%,
+    oklch(var(--b1) / 0.95) 100%
+  );
+  box-shadow: 4px 0 24px -4px oklch(var(--bc) / 0.06);
+}
+
+.sidebar-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.25rem;
+  color: oklch(var(--bc) / 0.45);
+  transition: all 0.2s ease;
+  position: relative;
+  width: 4.5rem;
+
+  .is-active {
+    display: none;
+  }
+
+  .is-inactive {
+    display: block;
+  }
+
+  &:hover {
+    color: oklch(var(--bc) / 0.7);
+    background: oklch(var(--bc) / 0.05);
+  }
+
+  &.active {
+    color: oklch(var(--p));
+    background: oklch(var(--p) / 0.08);
+
+    .is-active {
+      display: block;
+    }
+
+    .is-inactive {
+      display: none;
+    }
+
+    // Active indicator bar
+    &::before {
+      content: '';
+      position: absolute;
+      left: -0.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 1.5rem;
+      border-radius: 0 4px 4px 0;
+      background: oklch(var(--p));
+    }
+  }
+}
+
+.sidebar-label {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
