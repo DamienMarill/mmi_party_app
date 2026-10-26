@@ -1,6 +1,6 @@
-<div class="flex flex-col items-center pt-14">
+<div class="relative flex items-center justify-center min-h-dvh overflow-hidden">
   @if (lootbox){
-      <div class="aspect-square w-2/3 relative mb-20 animate-fade-in">
+      <div class="absolute aspect-square w-2/3 animate-fade-in">
           <div class="absolute inset-0 animate_orbes">
             @for (card of lootbox.cards; track card.id; let i = $index) {
               <div class="absolute w-32 h-32" [ngStyle]="getPosition(i)">
