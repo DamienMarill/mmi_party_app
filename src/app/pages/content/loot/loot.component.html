@@ -1,6 +1,6 @@
-<div class="flex flex-col items-center pt-14">
+<div class="relative flex items-center justify-center min-h-dvh overflow-hidden">
   @if (lootbox){
-      <div class="aspect-square w-2/3 relative mb-20 animate-fade-in">
+      <div class="absolute aspect-square w-2/3 animate-fade-in">
           <div class="absolute inset-0 animate_orbes">
             @for (card of lootbox.cards; track card.id; let i = $index) {
               <div class="absolute w-32 h-32" [ngStyle]="getPosition(i)">
@@ -12,9 +12,9 @@
           </div>
       </div>
       <div class="flex justify-center w-full">
-          <div (click)="passCard()" class="relative w-52 scale-150 transition-opacity duration-300 cursor-pointer" [class.opacity-0]="!isLoaded">
+          <div (click)="passCard()" class="relative grid w-52 scale-150 transition-opacity duration-300 cursor-pointer" [class.opacity-0]="!isLoaded">
             @for (card of lootbox.cards; track card.id; let i = $index) {
-              <div class="absolute w-full transition-opacity duration-200" [style]="{zIndex: showOrbe.length - i}" [class.opacity-0]="!showOrbe[i]">
+              <div class="relative col-start-1 row-start-1 w-full transition-opacity duration-200" [style]="{zIndex: showOrbe.length - i}" [class.opacity-0]="!showOrbe[i]">
                 
                 <!-- Badge Nouveau (Pendant l'ouverture) -->
                 @if (card.is_new && i === count) {
